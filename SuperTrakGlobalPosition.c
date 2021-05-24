@@ -4,7 +4,7 @@
  * Date: 2021-05-22
 *******************************************************************************/
 
-#include <ST_Pos.h>
+#include <StPos.h>
 #include <string.h>
 #include <stdbool.h>
 
@@ -33,12 +33,12 @@ DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSe
 	diag->Address 		= 0;
 	
 	/* Read SuperTrak parameters */
-	UINT sectionCount;
+	static UINT sectionCount;
 	UINT sectionAddress[50];
-	UINT sectionType[50];
-	UINT sectionMapping[51];
+	static UINT sectionType[50];
+	static UINT sectionMapping[51];
 	UINT originIndex;
-	DINT startingPositions[51];
+	static DINT startingPositions[50];
 	USINT i, i_0;
 	if(diag->Read) {
 		/* Read the SuperTrak section count */
@@ -104,10 +104,10 @@ DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSe
 		/* Set the global starting positions of each section in the network layout */
 		i_0 = originIndex;
 		if(direction == stDIRECTION_LEFT) {
-			if(i_0 == 1) i = sectionCount;
+			if(i_0 == 0) i = sectionCount - 1;
 			else i = i_0 - 1;
 		} else {
-			if(i_0 == sectionCount) i = 1;
+			if(i_0 == sectionCount - 1) i = 0;
 			else i = i_0 + 1;
 		}
 		while(i != originIndex) {
@@ -116,15 +116,40 @@ DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSe
 			else startingPositions[i] = startingPositions[i_0] + 1000000;
 			
 			if(direction == stDIRECTION_LEFT) {
-				if(i_0 == 1) i = sectionCount;
+				if(i_0 == 0) i = sectionCount - 1;
 				else i = i_0 - 1;
 			} else {
-				if(i_0 == sectionCount) i = 1;
+				if(i_0 == sectionCount - 1) i = 0;
 				else i = i_0 + 1;
 			}
 		}
 	}
 	else {
+		/* Verify the input section */
+		if((section == 0) || (section > sectionCount)) {
+			diag->SectionCount = sectionCount;
+			return ST_POS_ERROR_SECTION;
+		}
+		
+		/* Verify the input section position */
+		if(sectionType[sectionMapping[section]]) { // Curve
+			if((sectionPosition < 0) || (sectionPosition > 1030000))
+				return ST_POS_ERROR_POSITION;
+		} 
+		else {
+			if((sectionPosition < 0) || (sectionPosition > 1000000))
+				return ST_POS_ERROR_POSITION;
+		}
+		
+		/* Derive the global position */
+		if(direction == stDIRECTION_RIGHT)
+			*globalPosition = startingPositions[sectionMapping[section]] + sectionPosition;
+		else {
+			if(sectionType[sectionMapping[section]])
+				*globalPosition = startingPositions[sectionMapping[section]] + 1030000 - sectionPosition;
+			else
+				*globalPosition = startingPositions[sectionMapping[section]] + 1000000 - sectionPosition;
+		}
 		
 	} // Read
 	
