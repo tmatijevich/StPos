@@ -11,6 +11,5 @@
   <Dependencies>
     <Dependency ObjectName="sys_lib" />
     <Dependency ObjectName="SuperTrak" FromVersion="0.06.0" />
-    <Dependency ObjectName="runtime" />
   </Dependencies>
 </Library>
