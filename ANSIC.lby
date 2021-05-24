@@ -5,6 +5,8 @@
     <File Description="Exported data types">Types.typ</File>
     <File Description="Exported constants">Constants.var</File>
     <File Description="Exported functions and function blocks">StPos.fun</File>
+    <File Description="Main header">StPosMain.h</File>
+    <File Description="Update global SuperTrak network layout">SuperTrakReadLayout.c</File>
     <File Description="SuperTrak global reference position">SuperTrakGlobalPosition.c</File>
   </Files>
   <Dependencies>
