@@ -39,7 +39,7 @@ DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSe
 	static UINT sectionMapping[51];
 	UINT originIndex;
 	static DINT startingPositions[50];
-	USINT i, i_0;
+	USINT i, i_0, j;
 	if(diag->Read) {
 		/* Read the SuperTrak section count */
 		diag->ServiceChannel1080Result = SuperTrakServChanRead(
@@ -109,19 +109,24 @@ DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSe
 			if(i_0 == sectionCount - 1) i = 0;
 			else i = i_0 + 1;
 		}
-//		while(i != originIndex) {
-//			// Set the section's starting position based on the last section's starting position and length
-//			if(sectionType[i_0]) startingPositions[i] = startingPositions[i_0] + 1030000;
-//			else startingPositions[i] = startingPositions[i_0] + 1000000;
-//			
-//			if(direction == stDIRECTION_LEFT) {
-//				if(i_0 == 0) i = sectionCount - 1;
-//				else i = i_0 - 1;
-//			} else {
-//				if(i_0 == sectionCount - 1) i = 0;
-//				else i = i_0 + 1;
-//			}
-//		}
+		j = 0;
+		while(i != originIndex) {
+			j++;
+			if(j > 50) return ST_POS_ERROR_LAYOUT;
+			
+			// Set the section's starting position based on the last section's starting position and length
+			if(sectionType[i_0]) startingPositions[i] = startingPositions[i_0] + 1030000;
+			else startingPositions[i] = startingPositions[i_0] + 1000000;
+			
+			i_0 = i;
+			if(direction == stDIRECTION_LEFT) {
+				if(i_0 == 0) i = sectionCount - 1;
+				else i = i_0 - 1;
+			} else {
+				if(i_0 == sectionCount - 1) i = 0;
+				else i = i_0 + 1;
+			}
+		}
 	}
 	else {
 		/* Verify the input section */
