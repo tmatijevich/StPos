@@ -52,19 +52,19 @@ DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSe
 		);
 		if(diag->ServiceChannel1080Result != scERR_SUCCESS)
 			return ST_POS_ERROR_SERV_CHAN;
-		else if((sectionCount == 0) || (sectionCount > 50)) {
-			diag->SectionCount = sectionCount; // Record the invalid section count
-			return ST_POS_ERROR_LAYOUT;
-		}
 		
+		diag->SectionCount = sectionCount;
+		if((sectionCount == 0) || (sectionCount > 50))
+			return ST_POS_ERROR_LAYOUT;
+			
 		/* Read the configured SuperTrak section network */
 		diag->ServiceChannel1081Result = SuperTrakServChanRead(
 			0, // System parameter
 			stPAR_SECTION_ADDRESS, // Parameter
 			0, // Start index
 			sectionCount, // Count
-			(UDINT)&sectionAddress, // Buffer
-			sizeof(&sectionAddress) // Size
+			(UDINT)&sectionAddress[0], // Buffer
+			sizeof(sectionAddress) // Size
 		);
 		if(diag->ServiceChannel1081Result != scERR_SUCCESS)
 			return ST_POS_ERROR_SERV_CHAN;
@@ -84,7 +84,6 @@ DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSe
 				return ST_POS_ERROR_SERV_CHAN;
 			}
 			else if((sectionAddress[i] == 0) || (sectionAddress[i] > sectionCount)) { // Compare each address against the count
-				diag->SectionCount 	= sectionCount;
 				diag->Index 		= i;
 				diag->Address 		= sectionAddress[i];
 				return ST_POS_ERROR_LAYOUT;
@@ -110,19 +109,19 @@ DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSe
 			if(i_0 == sectionCount - 1) i = 0;
 			else i = i_0 + 1;
 		}
-		while(i != originIndex) {
-			// Set the section's starting position based on the last section's starting position and length
-			if(sectionType[i_0]) startingPositions[i] = startingPositions[i_0] + 1030000;
-			else startingPositions[i] = startingPositions[i_0] + 1000000;
-			
-			if(direction == stDIRECTION_LEFT) {
-				if(i_0 == 0) i = sectionCount - 1;
-				else i = i_0 - 1;
-			} else {
-				if(i_0 == sectionCount - 1) i = 0;
-				else i = i_0 + 1;
-			}
-		}
+//		while(i != originIndex) {
+//			// Set the section's starting position based on the last section's starting position and length
+//			if(sectionType[i_0]) startingPositions[i] = startingPositions[i_0] + 1030000;
+//			else startingPositions[i] = startingPositions[i_0] + 1000000;
+//			
+//			if(direction == stDIRECTION_LEFT) {
+//				if(i_0 == 0) i = sectionCount - 1;
+//				else i = i_0 - 1;
+//			} else {
+//				if(i_0 == sectionCount - 1) i = 0;
+//				else i = i_0 + 1;
+//			}
+//		}
 	}
 	else {
 		/* Verify the input section */
