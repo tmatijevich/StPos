@@ -1,0 +1,7 @@
+# StPos Version History
+
+See <repository_readme>.
+
+## 0.1.0 (2021-05-25)
+- First release
+- Implementation of translation between section-reference and global-reference positioning on SuperTrak
