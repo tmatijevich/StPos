@@ -6,7 +6,7 @@ TYPE
 		stPOS_ERROR_SERV_CHAN, (*The service channel read request returned an error. See SuperTrak library for error code descriptions.*)
 		stPOS_ERROR_LAYOUT, (*Unexpected system layout. Section count or section number out of range.*)
 		stPOS_ERROR_SECTION, (*Input section out of range. 1..sectionCount.*)
-		stPOS_ERROR_POSITION, (*Input position out of range. 0..1000000 or 0..1030000 for curves.*)
+		stPOS_ERROR_POSITION, (*Input position out of range or global position not found. 0..1000000 or 0..1030000 for curves.*)
 		stPOS_ERROR_ORIGIN (*Input origin section out of range. 1..sectionCount.*)
 		);
 	SuperTrakPositionDiagType : 	STRUCT  (*StPos position transformation diagnostic information*)

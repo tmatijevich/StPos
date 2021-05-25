@@ -8,6 +8,7 @@
 
 /* Declare global variables */
 UINT sectionCount;
+UINT sectionAddress[50];
 UINT sectionType[50];
 UINT sectionMapping[51];
 DINT startingPosition[50]; // [um]
@@ -16,7 +17,6 @@ DINT startingPosition[50]; // [um]
 DINT SuperTrakReadLayout(USINT originSection, USINT direction, struct SuperTrakPositionDiagType* diag) {
 	
 	/* Declare local variables */
-	UINT sectionAddress[50];
 	UINT originIndex;
 	USINT i, i_0, j;
 	

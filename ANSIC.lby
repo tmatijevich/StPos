@@ -7,7 +7,7 @@
     <File Description="Main header">StPosMain.h</File>
     <File Description="Update global SuperTrak network layout">SuperTrakReadLayout.c</File>
     <File Description="SuperTrak global reference position">SuperTrakGlobalPosition.c</File>
-    <File>SuperTrakSectionPosition.c</File>
+    <File Description="SuperTrak section position">SuperTrakSectionPosition.c</File>
   </Files>
   <Dependencies>
     <Dependency ObjectName="sys_lib" />
