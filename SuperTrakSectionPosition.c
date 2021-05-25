@@ -12,11 +12,11 @@ extern UINT sectionAddress[50];
 extern UINT sectionType[50];
 extern DINT startingPosition[50]; // [um]
 extern USINT previousOriginSection;
-extern USINT previousDirection;
+extern DINT previousDirection;
 extern BOOL readSuccess;
 
 /* Return the section position on the SuperTrak loop */
-DINT SuperTrakSectionPosition(DINT globalPosition, USINT originSection, USINT direction, USINT* section, DINT* sectionPosition, struct SuperTrakPositionDiagType* diag) {
+DINT SuperTrakSectionPosition(DINT globalPosition, USINT originSection, DINT direction, USINT* section, DINT* sectionPosition, struct SuperTrakPositionDiagType* diag) {
 	
 	/* Reset diagnostic information */
 	diag->ServiceChannelResult_1080 = 0;

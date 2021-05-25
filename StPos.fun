@@ -4,7 +4,7 @@ FUNCTION SuperTrakGlobalPosition : DINT (*Return the global position on the Supe
 		section : USINT; (*Section number*)
 		sectionPosition : DINT; (*[um] Position with reference to left side of section*)
 		originSection : USINT; (*First section number on loop of global position reference*)
-		direction : USINT; (*Global direction*)
+		direction : DINT; (*Global direction*)
 	END_VAR
 	VAR_IN_OUT
 		globalPosition : DINT; (*[um] Position computed on the global reference*)
@@ -16,7 +16,7 @@ FUNCTION SuperTrakSectionPosition : DINT (*Return the section position on the Su
 	VAR_INPUT
 		globalPosition : DINT; (*[um] Global reference position*)
 		originSection : USINT; (*First section number on loop of global position reference*)
-		direction : USINT; (*Global direction*)
+		direction : DINT; (*Global direction*)
 	END_VAR
 	VAR_IN_OUT
 		section : USINT; (*Computed section number*)

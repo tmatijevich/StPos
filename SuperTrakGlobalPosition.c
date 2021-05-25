@@ -14,11 +14,11 @@ extern DINT startingPosition[50]; // [um]
 
 /* Declare global variables */
 USINT previousOriginSection;
-USINT previousDirection;
+DINT previousDirection;
 BOOL readSuccess;
 
 /* Return the global reference position on the SuperTrak loop */
-DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSection, USINT direction, DINT* globalPosition, struct SuperTrakPositionDiagType* diag) {
+DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSection, DINT direction, DINT* globalPosition, struct SuperTrakPositionDiagType* diag) {
 		
 	/* Reset diagnostic information */
 	diag->ServiceChannelResult_1080 = 0;

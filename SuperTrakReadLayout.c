@@ -14,7 +14,7 @@ UINT sectionMapping[51];
 DINT startingPosition[50]; // [um]
 
 /* Read/update the global SuperTrak network layout reference */
-DINT SuperTrakReadLayout(USINT originSection, USINT direction, struct SuperTrakPositionDiagType* diag) {
+DINT SuperTrakReadLayout(USINT originSection, DINT direction, struct SuperTrakPositionDiagType* diag) {
 	
 	/* Declare local variables */
 	UINT originIndex;
