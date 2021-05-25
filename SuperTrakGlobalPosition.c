@@ -28,6 +28,9 @@ DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSe
 	diag->SectionAddress 	= 0;
 	diag->SectionNumber 	= 0;
 	
+	/* Reset the solution, zero if error */
+	*globalPosition = 0;
+	
 	/* Declare local variables */
 	DINT readResult;
 	

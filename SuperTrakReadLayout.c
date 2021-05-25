@@ -23,6 +23,7 @@ DINT SuperTrakReadLayout(USINT originSection, USINT direction, struct SuperTrakP
 	/* Reset global variables */
 	sectionCount = 0;
 	for(i = 0; i < 50; i++) {
+		sectionAddress[i] 	= 0;
 		sectionType[i] 		= 0;
 		sectionMapping[i] 	= 0;
 		startingPosition[i] = 0;
