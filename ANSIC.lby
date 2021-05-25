@@ -10,7 +10,6 @@
     <File Description="SuperTrak section position">SuperTrakSectionPosition.c</File>
   </Files>
   <Dependencies>
-    <Dependency ObjectName="sys_lib" />
     <Dependency ObjectName="SuperTrak" FromVersion="0.06.0" />
   </Dependencies>
 </Library>
