@@ -1,6 +1,6 @@
 # StPos Version History
 
-See <repository_readme>.
+[Release information](https://github.com/tmatijevich/StPos/releases)
 
 ## 0.1.0 (2021-05-25)
 - First release
