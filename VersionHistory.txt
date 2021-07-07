@@ -2,6 +2,10 @@
 
 [Release information](https://github.com/tmatijevich/StPos/releases)
 
+## 0.1.1 (2021-07-07)
+- Use DINT instead of USINT for `direction` input allowing enumerations
+- Update repository information
+
 ## 0.1.0 (2021-05-25)
 - First release
 - Implementation of translation between section-reference and global-reference positioning on SuperTrak
