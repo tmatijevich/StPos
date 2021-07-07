@@ -4,6 +4,8 @@ StPos is a library for Automation Studio projects to use with the SuperTrak modu
 This library provides functions to translate between local section positions and global loop positions.
 The functions are valid for any network layout. The global reference is defined by user defined settings: origin section and direction.
 
+![Global position sample 2021-07-07_18 01 23](https://user-images.githubusercontent.com/33841634/124838969-831b1c80-df4d-11eb-886e-6ab1ff9d2343.png)
+
 ## Clone
 
 Clone to a reference location
@@ -16,7 +18,7 @@ Or, add as submodule to your project's libraries
 
 ```
 cd <project_root>
-git submodule add https://github.com/tmatijevich/StPos.git <apj_root>/Logical/Libraries
+git submodule add https://github.com/tmatijevich/StPos.git <apj_root>/Logical/Libraries/StPos
 ```
 
 You will then have to add the existing library in Automation Studio.
@@ -31,7 +33,7 @@ You will then have to add the existing library in Automation Studio.
 ## Build
 
 You may notice build warnings such as "Additional directory/file found ..." from the StPos submodule.
-Add `-W 9233` in your configuration property "Additional build options:" to suppress.
+Add `-W 9232 9233` in your configuration property "Additional build options:" to suppress.
 
 ## Dependencies
 
