@@ -60,6 +60,8 @@ PositionResult := SuperTrakGlobalPosition(Section, SectionPosition, ORIGIN_SECTI
 
 You may notice build warnings such as "Additional directory/file found ..." from the StPos submodule.
 
+![File folder build warnings 2021-07-12_13 51 29](https://user-images.githubusercontent.com/33841634/125345690-77996e00-e31e-11eb-9f58-4bf563ac07a4.png)
+
 Add `-W 9232 9233` in your configuration property "Additional build options:" to suppress.
 
 ## Dependencies
