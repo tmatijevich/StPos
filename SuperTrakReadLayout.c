@@ -12,6 +12,7 @@ UINT sectionAddress[50];
 UINT sectionType[50];
 UINT sectionMapping[51];
 DINT startingPosition[50]; // [um]
+UINT tailSection;
 
 /* Read/update the global SuperTrak network layout reference */
 DINT SuperTrakReadLayout(USINT originSection, DINT direction, struct SuperTrakPositionDiagType* diag) {
@@ -84,8 +85,22 @@ DINT SuperTrakReadLayout(USINT originSection, DINT direction, struct SuperTrakPo
 		return stPOS_ERROR_ORIGIN;
 	for(i = 0; i < sectionCount; i++) {
 		sectionMapping[sectionAddress[i]] = i; // 1..50 Use to map from section number to network address
-		if(originSection == sectionAddress[i])
+		if(originSection == sectionAddress[i]) {
 			originIndex = i;
+			/* Determine the tail section user address */
+			if(direction == stDIRECTION_RIGHT) { // (Look left)
+				if(i == 0)
+					tailSection = sectionAddress[sectionCount - 1];
+				else
+					tailSection = sectionAddress[i - 1];
+			}
+			else { // Direction left (look right)
+				if(i == sectionCount - 1)
+					tailSection = sectionAddress[0];
+				else
+					tailSection = sectionAddress[i + 1];
+			}
+		}
 	}
 	
 	/* Set the global starting position of each section in the network layout */

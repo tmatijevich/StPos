@@ -11,6 +11,7 @@ extern UINT sectionCount;
 extern UINT sectionType[50];
 extern UINT sectionMapping[51];
 extern DINT startingPosition[50]; // [um]
+extern UINT tailSection;
 
 /* Declare global variables */
 USINT previousOriginSection;
@@ -56,18 +57,23 @@ DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSe
 		if((sectionPosition < 0) || (sectionPosition > 1030000))
 			return stPOS_ERROR_POSITION;
 	} 
-	else {
+	else { // Curve
 		if((sectionPosition < 0) || (sectionPosition > 1000000))
 			return stPOS_ERROR_POSITION;
 	}
 	
 	/* Derive the global position */
 	if(direction == stDIRECTION_RIGHT)
-		*globalPosition = startingPosition[sectionMapping[section]] + sectionPosition;
-	else {
-		if(sectionType[sectionMapping[section]])
+		if(section == tailSection && ((sectionType[sectionMapping[section]] && sectionPosition == 1030000) || sectionPosition == 1000000))
+			*globalPosition = 0;
+		else 
+			*globalPosition = startingPosition[sectionMapping[section]] + sectionPosition;
+	else { // Left
+		if(section == tailSection && sectionPosition == 0)
+			*globalPosition = 0;
+		else if(sectionType[sectionMapping[section]]) // Curve
 			*globalPosition = startingPosition[sectionMapping[section]] + 1030000 - sectionPosition;
-		else
+		else // Straight
 			*globalPosition = startingPosition[sectionMapping[section]] + 1000000 - sectionPosition;
 	}
 	
