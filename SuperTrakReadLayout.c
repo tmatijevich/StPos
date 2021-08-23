@@ -7,26 +7,26 @@
 #include "StPosMain.h"
 
 /* Declare global variables */
-UINT sectionCount; 							/* Number of active sections on SuperTrak */
-UINT sectionAddress[MAX_SECTION]; 			/* SuperTrak section user address in network order */
-UINT sectionType[MAX_SECTION]; 				/* SuperTrak section type in network order */
-UINT sectionMapping[MAX_SECTION + 1]; 		/* SuperTrak section mapping from user address to network order 1..sectionCount -> 0..sectionCount-1 */
-DINT startingPosition[MAX_SECTION];  		/* Global starting position of each section in network order */
-UINT endIndex; 								/* Network index of configured end section based on origin section */
-const unsigned long sectionLengths[] = { 	/* Length of each SuperTrak section type */
-	1000000, 								/* 0 - Standard straight 1 meter */
-	1030000, 								/* 1 - Standard curve 1 meter */
-	1000000, 								/* 2 - Lower power straight 1 meter */
-	759347, 								/* 3 - Wide curve 1.5 meter left */
-	759347 									/* 4 - Wide curve 1.5 meter right */
+unsigned short sectionCount; 					/* Number of active sections on SuperTrak */
+unsigned short sectionAddress[MAX_SECTION]; 	/* SuperTrak section user address in network order */
+unsigned short sectionType[MAX_SECTION]; 		/* SuperTrak section type in network order */
+unsigned short sectionMapping[MAX_SECTION + 1]; /* SuperTrak section mapping from user address to network order 1..sectionCount -> 0..sectionCount-1 */
+signed long startingPosition[MAX_SECTION];  	/* Global starting position of each section in network order */
+unsigned short endIndex; 						/* Network index of configured end section based on origin section */
+const signed long sectionLengths[] = { 			/* Length of each SuperTrak section type */
+	1000000, 									/* 0 - Standard straight 1 meter */
+	1030000, 									/* 1 - Standard curve 1 meter */
+	1000000, 									/* 2 - Lower power straight 1 meter */
+	759347, 									/* 3 - Wide curve 1.5 meter left */
+	759347 										/* 4 - Wide curve 1.5 meter right */
 };
 
 /* Read/update the global SuperTrak network layout reference */
-DINT SuperTrakReadLayout(USINT originSection, DINT direction, struct SuperTrakPositionDiagType* diag) {
+signed long SuperTrakReadLayout(unsigned char originSection, signed long direction, struct SuperTrakPositionDiagType *diag) {
 	
 	/* Declare local variables */
-	UINT originIndex;
-	USINT i, i_0, j;
+	unsigned short originIndex;
+	unsigned char i, i_0, j;
 	
 	/* Reset global variables */
 	sectionCount = 0;
@@ -44,7 +44,7 @@ DINT SuperTrakReadLayout(USINT originSection, DINT direction, struct SuperTrakPo
 		stPAR_SECTION_COUNT, // Parameter
 		0, // Start index
 		1, // Count
-		(UDINT)&sectionCount, // Buffer address
+		(unsigned long)&sectionCount, // Buffer address
 		sizeof(&sectionCount) // Size of buffer
 	);
 	if(diag->ServiceChannelResult_1080 != scERR_SUCCESS) 
@@ -64,7 +64,7 @@ DINT SuperTrakReadLayout(USINT originSection, DINT direction, struct SuperTrakPo
 		stPAR_SECTION_ADDRESS, // Parameter
 		0, // Start index
 		sectionCount, // Count
-		(UDINT)&sectionAddress[0], // Buffer address
+		(unsigned long)&sectionAddress[0], // Buffer address
 		sizeof(sectionAddress) // Size of buffer
 	);
 	if(diag->ServiceChannelResult_1081 != scERR_SUCCESS)
@@ -77,7 +77,7 @@ DINT SuperTrakReadLayout(USINT originSection, DINT direction, struct SuperTrakPo
 			stPAR_SECTION_TYPE, // Parameter
 			0, // Start index
 			1, // Count
-			(UDINT)&sectionType[i], // Buffer address
+			(unsigned long)&sectionType[i], // Buffer address
 			sizeof(&sectionType[i]) // Size of buffer
 		);
 		if(diag->ServiceChannelResult_1082 != scERR_SUCCESS) {

@@ -7,20 +7,20 @@
 #include "StPosMain.h"
 
 /* Reference global variables */
-extern UINT sectionCount;
-extern UINT sectionType[50];
-extern UINT sectionMapping[51];
-extern DINT startingPosition[50]; // [um]
-extern const unsigned long sectionLengths[];
-extern UINT endIndex;
+extern unsigned short sectionCount;
+extern unsigned short sectionType[50];
+extern unsigned short sectionMapping[51];
+extern signed long startingPosition[50]; // [um]
+extern const signed long sectionLengths[];
+extern unsigned short endIndex;
 
 /* Declare global variables */
-USINT previousOriginSection;
-DINT previousDirection;
-BOOL readSuccess;
+unsigned char previousOriginSection;
+signed long previousDirection;
+unsigned char readSuccess;
 
 /* Return the global reference position on the SuperTrak loop */
-DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSection, DINT direction, DINT* globalPosition, struct SuperTrakPositionDiagType* diag) {
+signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPosition, unsigned char originSection, signed long direction, signed long *globalPosition, struct SuperTrakPositionDiagType *diag) {
 		
 	unsigned long sectionLength; /* Store the length of the input section */
 	
@@ -36,7 +36,7 @@ DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSe
 	*globalPosition = 0;
 	
 	/* Declare local variables */
-	DINT readResult;
+	signed long readResult;
 	
 	/* Re-read the SuperTrak layout */
 	if((originSection != previousOriginSection) || (direction != previousDirection) || (readSuccess == false)) {

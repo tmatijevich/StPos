@@ -16,7 +16,7 @@
 #include <stdbool.h>
 
 /* Function prototypes */
-DINT SuperTrakReadLayout(USINT originSection, DINT direction, struct SuperTrakPositionDiagType* diag);
+signed long SuperTrakReadLayout(unsigned char originSection, signed long direction, struct SuperTrakPositionDiagType *diag);
 
 #endif
 
