@@ -10,7 +10,9 @@
 extern UINT sectionCount;
 extern UINT sectionAddress[50];
 extern UINT sectionType[50];
+extern UINT sectionMapping[51];
 extern DINT startingPosition[50]; // [um]
+extern unsigned short endIndex;
 extern const unsigned long sectionLengths[];
 extern USINT previousOriginSection;
 extern DINT previousDirection;
@@ -54,14 +56,24 @@ DINT SuperTrakSectionPosition(DINT globalPosition, USINT originSection, DINT dir
 		lowerBound 		= startingPosition[i];
 		upperBound 		= startingPosition[i] + sectionLength;
 		if(direction == stDIRECTION_RIGHT) {
-			if((lowerBound <= globalPosition) && (globalPosition < upperBound)) {
+			if(i == endIndex && globalPosition == upperBound) {
+				*section 			= originSection;
+				*sectionPosition 	= 0;
+				return stPOS_ERROR_NONE;
+			}
+			else if((lowerBound <= globalPosition) && (globalPosition < upperBound)) {
 				*section = sectionAddress[i];
 				*sectionPosition = globalPosition - lowerBound;
 				return stPOS_ERROR_NONE;
 			}
 		}
-		else {
-			if((lowerBound < globalPosition) && (globalPosition <= upperBound)) {
+		else { // LEFT
+			if(i == sectionMapping[originSection] && globalPosition == lowerBound) {
+				*section 			= sectionAddress[endIndex];
+				*sectionPosition 	= 0;
+				return stPOS_ERROR_NONE;
+			}
+			else if((lowerBound < globalPosition) && (globalPosition <= upperBound)) {
 				*section = sectionAddress[i];
 				*sectionPosition = sectionLength - (globalPosition - lowerBound);
 				return stPOS_ERROR_NONE;

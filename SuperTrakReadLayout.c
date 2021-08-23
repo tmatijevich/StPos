@@ -12,7 +12,7 @@ UINT sectionAddress[MAX_SECTION]; 			/* SuperTrak section user address in networ
 UINT sectionType[MAX_SECTION]; 				/* SuperTrak section type in network order */
 UINT sectionMapping[MAX_SECTION + 1]; 		/* SuperTrak section mapping from user address to network order 1..sectionCount -> 0..sectionCount-1 */
 DINT startingPosition[MAX_SECTION];  		/* Global starting position of each section in network order */
-UINT tailSection; 							/* Configured tail section based on origin section */
+UINT endIndex; 								/* Network index of configured end section based on origin section */
 const unsigned long sectionLengths[] = { 	/* Length of each SuperTrak section type */
 	1000000, 								/* 0 - Standard straight 1 meter */
 	1030000, 								/* 1 - Standard curve 1 meter */
@@ -105,16 +105,16 @@ DINT SuperTrakReadLayout(USINT originSection, DINT direction, struct SuperTrakPo
 			originIndex = i;
 			/* Determine the tail section user address */
 			if(direction == stDIRECTION_RIGHT) { // (Look left)
-				if(i == 0)
-					tailSection = sectionAddress[sectionCount - 1];
+				if(originIndex == 0)
+					endIndex = sectionCount - 1;
 				else
-					tailSection = sectionAddress[i - 1];
+					endIndex = originIndex - 1;
 			}
 			else { // Direction left (look right)
-				if(i == sectionCount - 1)
-					tailSection = sectionAddress[0];
+				if(originIndex == sectionCount - 1)
+					endIndex = 0;
 				else
-					tailSection = sectionAddress[i + 1];
+					endIndex = originIndex + 1;
 			}
 		}
 	}

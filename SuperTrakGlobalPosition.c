@@ -12,7 +12,7 @@ extern UINT sectionType[50];
 extern UINT sectionMapping[51];
 extern DINT startingPosition[50]; // [um]
 extern const unsigned long sectionLengths[];
-extern UINT tailSection;
+extern UINT endIndex;
 
 /* Declare global variables */
 USINT previousOriginSection;
@@ -62,13 +62,13 @@ DINT SuperTrakGlobalPosition(USINT section, DINT sectionPosition, USINT originSe
 	
 	/* Derive the global position */
 	if(direction == stDIRECTION_RIGHT) {
-		if((section == tailSection) && (sectionPosition == sectionLength))
+		if((sectionMapping[section] == endIndex) && (sectionPosition == sectionLength))
 			*globalPosition = 0;
 		else 
 			*globalPosition = startingPosition[sectionMapping[section]] + sectionPosition;
 	}
 	else { // Left
-		if((section == tailSection) && (sectionPosition == 0))
+		if((sectionMapping[section] == endIndex) && (sectionPosition == 0))
 			*globalPosition = 0;
 		else 
 			*globalPosition = startingPosition[sectionMapping[section]] + sectionLength - sectionPosition;
