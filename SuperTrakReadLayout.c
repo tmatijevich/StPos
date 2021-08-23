@@ -7,12 +7,19 @@
 #include "StPosMain.h"
 
 /* Declare global variables */
-UINT sectionCount;
-UINT sectionAddress[50];
-UINT sectionType[50];
-UINT sectionMapping[51];
-DINT startingPosition[50]; // [um]
-UINT tailSection;
+UINT sectionCount; 							/* Number of active sections on SuperTrak */
+UINT sectionAddress[MAX_SECTION]; 			/* SuperTrak section user address in network order */
+UINT sectionType[MAX_SECTION]; 				/* SuperTrak section type in network order */
+UINT sectionMapping[MAX_SECTION + 1]; 		/* SuperTrak section mapping from user address to network order 1..sectionCount -> 0..sectionCount-1 */
+DINT startingPosition[MAX_SECTION];  		/* Global starting position of each section in network order */
+UINT tailSection; 							/* Configured tail section based on origin section */
+const unsigned long sectionLengths[] = { 	/* Length of each SuperTrak section type */
+	1000000, 								/* 0 - Standard straight 1 meter */
+	1030000, 								/* 1 - Standard curve 1 meter */
+	1000000, 								/* 2 - Lower power straight 1 meter */
+	759347, 								/* 3 - Wide curve 1.5 meter left */
+	759347 									/* 4 - Wide curve 1.5 meter right */
+};
 
 /* Read/update the global SuperTrak network layout reference */
 DINT SuperTrakReadLayout(USINT originSection, DINT direction, struct SuperTrakPositionDiagType* diag) {
@@ -47,7 +54,11 @@ DINT SuperTrakReadLayout(USINT originSection, DINT direction, struct SuperTrakPo
 		return stPOS_ERROR_LAYOUT;
 	}
 	
-	/* Read the SuperTrak system layout network addresses */
+	/* 
+		Read the SuperTrak system layout network addresses 
+		Increasing network order i moves in the positive right direction stDIRECTION_RIGHT 
+		Decreasing network order i moves in the negative left direction st_DIRECTION_LEFT 
+	*/
 	diag->ServiceChannelResult_1081 = SuperTrakServChanRead(
 		0, // System parameter
 		stPAR_SECTION_ADDRESS, // Parameter
@@ -59,7 +70,7 @@ DINT SuperTrakReadLayout(USINT originSection, DINT direction, struct SuperTrakPo
 	if(diag->ServiceChannelResult_1081 != scERR_SUCCESS)
 		return stPOS_ERROR_SERV_CHAN;
 	
-	/* Read each section's type (curve or straight) */
+	/* Read each section's type */
 	for(i = 0; i < sectionCount; i++) {
 		diag->ServiceChannelResult_1082 = SuperTrakServChanRead(
 			sectionAddress[i], // Section parameter
@@ -76,6 +87,11 @@ DINT SuperTrakReadLayout(USINT originSection, DINT direction, struct SuperTrakPo
 		else if((sectionAddress[i] == 0) || (sectionAddress[i] > 50)) {
 			diag->SectionAddress = i;
 			diag->SectionNumber = sectionAddress[i];
+			return stPOS_ERROR_LAYOUT;
+		}
+		/* Verify this section's type is within 0..4 */
+		else if(sectionType[i] > MAX_TYPE) {
+			diag->SectionAddress = i;
 			return stPOS_ERROR_LAYOUT;
 		}
 	}
@@ -120,8 +136,7 @@ DINT SuperTrakReadLayout(USINT originSection, DINT direction, struct SuperTrakPo
 		}
 		
 		/* Set the section's starting position based on the last section's starting position */
-		if(sectionType[i_0]) startingPosition[i] = startingPosition[i_0] + 1030000;
-		else startingPosition[i] = startingPosition[i_0] + 1000000;
+		startingPosition[i] = startingPosition[i_0] + sectionLengths[sectionType[i_0]];
 		
 		i_0 = i;
 		if(direction == stDIRECTION_LEFT) {

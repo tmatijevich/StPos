@@ -11,12 +11,15 @@ extern UINT sectionCount;
 extern UINT sectionAddress[50];
 extern UINT sectionType[50];
 extern DINT startingPosition[50]; // [um]
+extern const unsigned long sectionLengths[];
 extern USINT previousOriginSection;
 extern DINT previousDirection;
 extern BOOL readSuccess;
 
 /* Return the section position on the SuperTrak loop */
 DINT SuperTrakSectionPosition(DINT globalPosition, USINT originSection, DINT direction, USINT* section, DINT* sectionPosition, struct SuperTrakPositionDiagType* diag) {
+	
+	unsigned long sectionLength; /* Store the length of the current section */
 	
 	/* Reset diagnostic information */
 	diag->ServiceChannelResult_1080 = 0;
@@ -47,9 +50,9 @@ DINT SuperTrakSectionPosition(DINT globalPosition, USINT originSection, DINT dir
 	
 	/* Search for the section */
 	for(i = 0; i < sectionCount; i++) {
-		lowerBound = startingPosition[i];
-		if(sectionType[i]) upperBound = startingPosition[i] + 1030000;
-		else upperBound = startingPosition[i] + 1000000;
+		sectionLength 	= sectionLengths[sectionType[i]];
+		lowerBound 		= startingPosition[i];
+		upperBound 		= startingPosition[i] + sectionLength;
 		if(direction == stDIRECTION_RIGHT) {
 			if((lowerBound <= globalPosition) && (globalPosition < upperBound)) {
 				*section = sectionAddress[i];
@@ -60,8 +63,7 @@ DINT SuperTrakSectionPosition(DINT globalPosition, USINT originSection, DINT dir
 		else {
 			if((lowerBound < globalPosition) && (globalPosition <= upperBound)) {
 				*section = sectionAddress[i];
-				if(sectionType[i]) *sectionPosition = 1030000 - (globalPosition - lowerBound);
-				else *sectionPosition = 1000000 - (globalPosition - lowerBound);
+				*sectionPosition = sectionLength - (globalPosition - lowerBound);
 				return stPOS_ERROR_NONE;
 			}
 		}
