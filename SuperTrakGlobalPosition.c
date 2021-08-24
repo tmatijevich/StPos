@@ -6,19 +6,6 @@
 
 #include "StPosMain.h"
 
-/* Reference global variables */
-extern unsigned short sectionCount;
-extern unsigned short sectionType[50];
-extern unsigned short sectionMapping[51];
-extern signed long startingPosition[50]; // [um]
-extern const signed long sectionLengths[];
-extern unsigned short endIndex;
-
-/* Declare global variables */
-unsigned char previousOriginSection;
-signed long previousDirection;
-unsigned char readSuccess;
-
 /* Return the global reference position on the SuperTrak loop */
 signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPosition, unsigned char originSection, signed long direction, signed long *globalPosition, struct SuperTrakPositionDiagType *diag) {
 		

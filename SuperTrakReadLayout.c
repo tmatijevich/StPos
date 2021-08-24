@@ -7,19 +7,22 @@
 #include "StPosMain.h"
 
 /* Declare global variables */
-unsigned short sectionCount; 					/* Number of active sections on SuperTrak */
-unsigned short sectionAddress[MAX_SECTION]; 	/* SuperTrak section user address in network order */
-unsigned short sectionType[MAX_SECTION]; 		/* SuperTrak section type in network order */
-unsigned short sectionMapping[MAX_SECTION + 1]; /* SuperTrak section mapping from user address to network order 1..sectionCount -> 0..sectionCount-1 */
-signed long startingPosition[MAX_SECTION];  	/* Global starting position of each section in network order */
-unsigned short endIndex; 						/* Network index of configured end section based on origin section */
-const signed long sectionLengths[] = { 			/* Length of each SuperTrak section type */
-	1000000, 									/* 0 - Standard straight 1 meter */
-	1030000, 									/* 1 - Standard curve 1 meter */
-	1000000, 									/* 2 - Lower power straight 1 meter */
-	759347, 									/* 3 - Wide curve 1.5 meter left */
-	759347 										/* 4 - Wide curve 1.5 meter right */
+unsigned short 			sectionCount; 						/* SuperTrak active section count */
+unsigned short 			sectionAddress[MAX_SECTION]; 		/* SuperTrak section user addresses in network order */
+unsigned short 			sectionType[MAX_SECTION]; 			/* SuperTrak section type 0..4 in network order */
+unsigned short 			sectionMapping[MAX_SECTION + 1]; 	/* Map from user address (SuperTrak section number 1..50) to network order 0..49 */
+signed long 			startingPosition[MAX_SECTION]; 		/* [um] Starting position of each section according to originSection and direction */
+const signed long 		sectionLengths[] = { 				/* Length of a SuperTrak section according to type */
+	1000000, 												/* 0 - Standard straight 1 meter */
+	1030000, 												/* 1 - Standard curve 1 meter */
+	1000000, 												/* 2 - Lower power straight 1 meter */
+	759347, 												/* 3 - Wide curve 1.5 meter left */
+	759347 													/* 4 - Wide curve 1.5 meter right */
 };
+unsigned short 			endIndex; 							/* Index in sectionAddress[] representing the last section according to originSection */
+unsigned char 			previousOriginSection; 				/* The value of originSection in the last call to SuperTrakReadLayout() */
+unsigned char 			previousDirection; 					/* The value of direction in the last call to SuperTrakReadLayout() */
+unsigned char 			readSuccess; 						/* The last call to SuperTrakReadLayout() was successful */
 
 /* Read/update the global SuperTrak network layout reference */
 signed long SuperTrakReadLayout(unsigned char originSection, signed long direction, struct SuperTrakPositionDiagType *diag) {

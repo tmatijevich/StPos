@@ -6,18 +6,6 @@
 
 #include "StPosMain.h"
 
-/* Reference global variables */
-extern unsigned short sectionCount;
-extern unsigned short sectionAddress[50];
-extern unsigned short sectionType[50];
-extern unsigned short sectionMapping[51];
-extern signed long startingPosition[50]; // [um]
-extern unsigned short endIndex;
-extern const unsigned long sectionLengths[];
-extern unsigned char previousOriginSection;
-extern signed long previousDirection;
-extern unsigned char readSuccess;
-
 /* Return the section position on the SuperTrak loop */
 DINT SuperTrakSectionPosition(DINT globalPosition, USINT originSection, DINT direction, USINT* section, DINT* sectionPosition, struct SuperTrakPositionDiagType* diag) {
 	
