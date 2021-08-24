@@ -7,9 +7,12 @@
 #include "StPosMain.h"
 
 /* Return the section position on the SuperTrak loop */
-DINT SuperTrakSectionPosition(DINT globalPosition, USINT originSection, DINT direction, USINT* section, DINT* sectionPosition, struct SuperTrakPositionDiagType* diag) {
+signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char originSection, signed long direction, unsigned char *section, signed long *sectionPosition, struct SuperTrakPositionDiagType *diag) {
 	
-	unsigned long sectionLength; /* Store the length of the current section */
+	/* Declare local variables */
+	signed long sectionLength; /* Store the length of the current section */
+	signed long readResult, lowerBound, upperBound;
+	unsigned char i;
 	
 	/* Reset diagnostic information */
 	diag->ServiceChannelResult_1080 = 0;
@@ -22,10 +25,6 @@ DINT SuperTrakSectionPosition(DINT globalPosition, USINT originSection, DINT dir
 	/* Reset the solution, zero if error */
 	*section = 0;
 	*sectionPosition = 0;
-	
-	/* Declare local variables */
-	DINT readResult, lowerBound, upperBound;
-	USINT i;
 	
 	/* Re-read the SuperTrak layout */
 	if((originSection != previousOriginSection) || (direction != previousDirection) || (readSuccess == false)) {

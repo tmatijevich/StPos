@@ -33,13 +33,13 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	
 	/* Reset global variables */
 	sectionCount = 0;
-	for(i = 0; i < 50; i++) {
+	for(i = 0; i < MAX_SECTION; i++) {
 		sectionAddress[i] 	= 0;
 		sectionType[i] 		= 0;
 		sectionMapping[i] 	= 0;
 		startingPosition[i] = 0;
 	}
-	sectionMapping[50] = 0;
+	sectionMapping[MAX_SECTION] = 0;
 	
 	/* Read the SuperTrak section count */
 	diag->ServiceChannelResult_1080 = SuperTrakServChanRead(
@@ -52,7 +52,7 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	);
 	if(diag->ServiceChannelResult_1080 != scERR_SUCCESS) 
 		return stPOS_ERROR_SERV_CHAN;
-	else if((sectionCount == 0) || (sectionCount > 50)) {
+	else if((sectionCount == 0) || (sectionCount > MAX_SECTION)) {
 		diag->SectionCount = sectionCount;
 		return stPOS_ERROR_LAYOUT;
 	}
@@ -87,7 +87,7 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 			diag->SectionNumber = sectionAddress[i];
 			return stPOS_ERROR_SERV_CHAN;
 		}
-		else if((sectionAddress[i] == 0) || (sectionAddress[i] > 50)) {
+		else if((sectionAddress[i] == 0) || (sectionAddress[i] > MAX_SECTION)) {
 			diag->SectionAddress = i;
 			diag->SectionNumber = sectionAddress[i];
 			return stPOS_ERROR_LAYOUT;
@@ -133,7 +133,7 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 		else i = i_0 + 1;
 	}
 	while(i != originIndex) {
-		if(++j > 50) {
+		if(++j > MAX_SECTION) {
 			diag->SectionAddress = i;
 			return stPOS_ERROR_LAYOUT;
 		}

@@ -9,7 +9,9 @@
 /* Return the global reference position on the SuperTrak loop */
 signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPosition, unsigned char originSection, signed long direction, signed long *globalPosition, struct SuperTrakPositionDiagType *diag) {
 		
-	unsigned long sectionLength; /* Store the length of the input section */
+	/* Declare local variables */
+	signed long sectionLength; /* Store the length of the input section */
+	signed long readResult;
 	
 	/* Reset diagnostic information */
 	diag->ServiceChannelResult_1080 = 0;
@@ -21,9 +23,6 @@ signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPo
 	
 	/* Reset the solution, zero if error */
 	*globalPosition = 0;
-	
-	/* Declare local variables */
-	signed long readResult;
 	
 	/* Re-read the SuperTrak layout */
 	if((originSection != previousOriginSection) || (direction != previousDirection) || (readSuccess == false)) {
