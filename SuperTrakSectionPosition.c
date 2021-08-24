@@ -27,7 +27,7 @@ signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char o
 	*sectionPosition = 0;
 	
 	/* Re-read the SuperTrak layout */
-	if((originSection != previousOriginSection) || (direction != previousDirection) || (readSuccess == false)) {
+	if(originSection != previousOriginSection || direction != previousDirection || readSuccess == false) {
 		readResult = SuperTrakReadLayout(originSection, direction, diag);
 		if(readResult != stPOS_ERROR_NONE) {
 			readSuccess = false;
@@ -48,7 +48,7 @@ signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char o
 				*sectionPosition 	= 0;
 				return stPOS_ERROR_NONE;
 			}
-			else if((lowerBound <= globalPosition) && (globalPosition < upperBound)) {
+			else if(lowerBound <= globalPosition && globalPosition < upperBound) {
 				*section = sectionAddress[i];
 				*sectionPosition = globalPosition - lowerBound;
 				return stPOS_ERROR_NONE;
@@ -60,7 +60,7 @@ signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char o
 				*sectionPosition 	= 0;
 				return stPOS_ERROR_NONE;
 			}
-			else if((lowerBound < globalPosition) && (globalPosition <= upperBound)) {
+			else if(lowerBound < globalPosition && globalPosition <= upperBound) {
 				*section = sectionAddress[i];
 				*sectionPosition = sectionLength - (globalPosition - lowerBound);
 				return stPOS_ERROR_NONE;

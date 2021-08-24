@@ -25,7 +25,7 @@ signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPo
 	*globalPosition = 0;
 	
 	/* Re-read the SuperTrak layout */
-	if((originSection != previousOriginSection) || (direction != previousDirection) || (readSuccess == false)) {
+	if(originSection != previousOriginSection || direction != previousDirection || readSuccess == false) {
 		readResult = SuperTrakReadLayout(originSection, direction, diag);
 		if(readResult != stPOS_ERROR_NONE) {
 			readSuccess = false;
@@ -36,25 +36,25 @@ signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPo
 	}
 	
 	/* Verify the input section */
-	if((section == 0) || (section > sectionCount)) {
+	if(section == 0 || section > sectionCount) {
 		diag->SectionCount = sectionCount;
 		return stPOS_ERROR_SECTION;
 	}
 	sectionLength = sectionLengths[sectionType[sectionMapping[section]]];
 	
 	/* Verify the input section position */
-	if((sectionPosition < 0) || (sectionPosition > sectionLength)) 
+	if(sectionPosition < 0 || sectionPosition > sectionLength) 
 		return stPOS_ERROR_POSITION;
 	
 	/* Derive the global position */
 	if(direction == stDIRECTION_RIGHT) {
-		if((sectionMapping[section] == endIndex) && (sectionPosition == sectionLength))
+		if(sectionMapping[section] == endIndex && sectionPosition == sectionLength)
 			*globalPosition = 0;
 		else 
 			*globalPosition = startingPosition[sectionMapping[section]] + sectionPosition;
 	}
 	else { /* Left */
-		if((sectionMapping[section] == endIndex) && (sectionPosition == 0))
+		if(sectionMapping[section] == endIndex && sectionPosition == 0)
 			*globalPosition = 0;
 		else 
 			*globalPosition = startingPosition[sectionMapping[section]] + sectionLength - sectionPosition;

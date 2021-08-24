@@ -52,7 +52,7 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	);
 	if(diag->ServiceChannelResult_1080 != scERR_SUCCESS) 
 		return stPOS_ERROR_SERV_CHAN;
-	else if((sectionCount == 0) || (sectionCount > MAX_SECTION)) {
+	else if(sectionCount == 0 || sectionCount > MAX_SECTION) {
 		diag->SectionCount = sectionCount;
 		return stPOS_ERROR_LAYOUT;
 	}
@@ -87,7 +87,7 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 			diag->SectionNumber = sectionAddress[i];
 			return stPOS_ERROR_SERV_CHAN;
 		}
-		else if((sectionAddress[i] == 0) || (sectionAddress[i] > MAX_SECTION)) {
+		else if(sectionAddress[i] == 0 || sectionAddress[i] > MAX_SECTION) {
 			diag->SectionAddress = i;
 			diag->SectionNumber = sectionAddress[i];
 			return stPOS_ERROR_LAYOUT;
@@ -100,7 +100,7 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	}
 	
 	/* Verify the origin section and create the mapping */
-	if((originSection == 0) || (originSection > sectionCount))
+	if(originSection == 0 || originSection > sectionCount)
 		return stPOS_ERROR_ORIGIN;
 	for(i = 0; i < sectionCount; i++) {
 		sectionMapping[sectionAddress[i]] = i; /* 1..50 Use to map from section number to network address */
