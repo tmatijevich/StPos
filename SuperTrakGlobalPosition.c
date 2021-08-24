@@ -1,7 +1,7 @@
  /*******************************************************************************
- * File: SuperTrakGlobalPosition.c
- * Author: Tyler Matijevich
- * Date: 2021-05-22
+ * File:      SuperTrakGlobalPosition.c
+ * Author:    Tyler Matijevich
+ * Date:      2021-05-22
 *******************************************************************************/
 
 #include "StPosMain.h"
@@ -53,7 +53,7 @@ signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPo
 		else 
 			*globalPosition = startingPosition[sectionMapping[section]] + sectionPosition;
 	}
-	else { // Left
+	else { /* Left */
 		if((sectionMapping[section] == endIndex) && (sectionPosition == 0))
 			*globalPosition = 0;
 		else 
@@ -62,4 +62,4 @@ signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPo
 	
 	return stPOS_ERROR_NONE;
 	
-} // End function
+} /* End function */

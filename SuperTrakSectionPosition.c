@@ -54,7 +54,7 @@ signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char o
 				return stPOS_ERROR_NONE;
 			}
 		}
-		else { // LEFT
+		else { /* LEFT */
 			if(i == sectionMapping[originSection] && globalPosition == lowerBound) {
 				*section 			= sectionAddress[endIndex];
 				*sectionPosition 	= 0;

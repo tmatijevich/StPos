@@ -43,12 +43,12 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	
 	/* Read the SuperTrak section count */
 	diag->ServiceChannelResult_1080 = SuperTrakServChanRead(
-		0, // System parameter
-		stPAR_SECTION_COUNT, // Parameter
-		0, // Start index
-		1, // Count
-		(unsigned long)&sectionCount, // Buffer address
-		sizeof(&sectionCount) // Size of buffer
+		0, /* System parameter */
+		stPAR_SECTION_COUNT, /* Parameter */
+		0, /* Start index */
+		1, /* Count */
+		(unsigned long)&sectionCount, /* Buffer address */
+		sizeof(&sectionCount) /* Size of buffer */
 	);
 	if(diag->ServiceChannelResult_1080 != scERR_SUCCESS) 
 		return stPOS_ERROR_SERV_CHAN;
@@ -63,12 +63,12 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 		Decreasing network order i moves in the negative left direction st_DIRECTION_LEFT 
 	*/
 	diag->ServiceChannelResult_1081 = SuperTrakServChanRead(
-		0, // System parameter
-		stPAR_SECTION_ADDRESS, // Parameter
-		0, // Start index
-		sectionCount, // Count
-		(unsigned long)&sectionAddress[0], // Buffer address
-		sizeof(sectionAddress) // Size of buffer
+		0, /* System parameter */
+		stPAR_SECTION_ADDRESS, /* Parameter */
+		0, /* Start index */
+		sectionCount, /* Count */
+		(unsigned long)&sectionAddress[0], /* Buffer address */
+		sizeof(sectionAddress) /* Size of buffer */
 	);
 	if(diag->ServiceChannelResult_1081 != scERR_SUCCESS)
 		return stPOS_ERROR_SERV_CHAN;
@@ -76,12 +76,12 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	/* Read each section's type */
 	for(i = 0; i < sectionCount; i++) {
 		diag->ServiceChannelResult_1082 = SuperTrakServChanRead(
-			sectionAddress[i], // Section parameter
-			stPAR_SECTION_TYPE, // Parameter
-			0, // Start index
-			1, // Count
-			(unsigned long)&sectionType[i], // Buffer address
-			sizeof(&sectionType[i]) // Size of buffer
+			sectionAddress[i], /* Section parameter */
+			stPAR_SECTION_TYPE, /* Parameter */
+			0, /* Start index */
+			1, /* Count */
+			(unsigned long)&sectionType[i], /* Buffer address */
+			sizeof(&sectionType[i]) /* Size of buffer */
 		);
 		if(diag->ServiceChannelResult_1082 != scERR_SUCCESS) {
 			diag->SectionNumber = sectionAddress[i];
@@ -103,17 +103,17 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	if((originSection == 0) || (originSection > sectionCount))
 		return stPOS_ERROR_ORIGIN;
 	for(i = 0; i < sectionCount; i++) {
-		sectionMapping[sectionAddress[i]] = i; // 1..50 Use to map from section number to network address
+		sectionMapping[sectionAddress[i]] = i; /* 1..50 Use to map from section number to network address */
 		if(originSection == sectionAddress[i]) {
 			originIndex = i;
 			/* Determine the tail section user address */
-			if(direction == stDIRECTION_RIGHT) { // (Look left)
+			if(direction == stDIRECTION_RIGHT) { /* (Look left) */
 				if(originIndex == 0)
 					endIndex = sectionCount - 1;
 				else
 					endIndex = originIndex - 1;
 			}
-			else { // Direction left (look right)
+			else { /* Direction left (look right) */
 				if(originIndex == sectionCount - 1)
 					endIndex = 0;
 				else
