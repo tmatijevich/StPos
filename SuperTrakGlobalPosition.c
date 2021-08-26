@@ -43,18 +43,18 @@ signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPo
 	sectionLength = sectionLengths[sectionType[sectionMapping[section]]];
 	
 	/* Verify the input section position */
-	if(sectionPosition < 0 || sectionPosition > sectionLength) 
+	if(sectionPosition < 0 || sectionPosition > 2 * sectionLength) /* Allow rollover, but do not exceed a large number */ 
 		return stPOS_ERROR_POSITION;
 	
 	/* Derive the global position */
 	if(direction == stDIRECTION_RIGHT) {
-		if(sectionMapping[section] == endIndex && sectionPosition == sectionLength)
-			*globalPosition = 0;
+		if(sectionMapping[section] == endIndex && sectionPosition >= sectionLength) /* Rollover the end section */
+			*globalPosition = sectionPosition - sectionLength; /* Allow some rollover */
 		else 
 			*globalPosition = startingPosition[sectionMapping[section]] + sectionPosition;
 	}
 	else { /* Left */
-		if(sectionMapping[section] == endIndex && sectionPosition == 0)
+		if(sectionMapping[section] == endIndex && sectionPosition == 0) /* Should not be rollover in the negative direction (encoder offset is zero at the first coil) */
 			*globalPosition = 0;
 		else 
 			*globalPosition = startingPosition[sectionMapping[section]] + sectionLength - sectionPosition;
