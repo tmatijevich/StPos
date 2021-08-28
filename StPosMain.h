@@ -13,8 +13,10 @@
 #include <stdbool.h> 	/* C99 standard header */
 
 /* Constants */
-#define MAX_SECTION 	50
-#define MAX_TYPE 		4
+#define MAX_SECTION 				50
+#define MAX_TYPE 					4
+#define SECTION_POSITION_EXTENSION 	5000 /* From unique encoder calibrations, allow section position inputs to exceed
+											the length of section by 5 mm */
 
 /* Global variables (promise to declare in source file) */
 extern unsigned short 			sectionCount; 						/* SuperTrak active section count */
