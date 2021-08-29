@@ -24,3 +24,10 @@ FUNCTION SuperTrakSectionPosition : DINT (*Return the section position on the Su
 		info : SuperTrakPositionInfoType; (*Diagnostic information*)
 	END_VAR
 END_FUNCTION
+
+FUNCTION SuperTrakTotalLength : DINT (*Return the total pallet travel length of the SuperTrak section network*)
+	VAR_INPUT
+		length : REFERENCE TO DINT; (*Pointer to DINT to store the SuperTrak total length*)
+		info : SuperTrakPositionInfoType; (*Diagnostic information*)
+	END_VAR
+END_FUNCTION

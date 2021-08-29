@@ -8,6 +8,7 @@
     <File Description="Update global SuperTrak network layout">SuperTrakReadLayout.c</File>
     <File Description="SuperTrak global reference position">SuperTrakGlobalPosition.c</File>
     <File Description="SuperTrak section position">SuperTrakSectionPosition.c</File>
+    <File Description="Get the total SuperTrak length">SuperTrakTotalLength.c</File>
     <File Description="Version history descriptions">VersionHistory.txt</File>
   </Files>
   <Dependencies>
