@@ -11,23 +11,19 @@ signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPo
 		
 	/* Declare local variables */
 	signed long sectionLength; /* Store the length of the input section */
-	signed long readResult;
+	signed long layoutResult;
 	
-	/* Reset the solution, zero if error */
+	/* Reset the solution */
 	*globalPosition = 0;
 	
 	/* Reset diagnostic information */
 	memset(info, 0, sizeof(*info));
 	
 	/* Re-read the SuperTrak layout */
-	if(originSection != previousOriginSection || direction != previousDirection || readSuccess == false) {
-		readResult = SuperTrakReadLayout(originSection, direction, info);
-		if(readResult != stPOS_ERROR_NONE) {
-			readSuccess = false;
-			return readResult;
-		}
-		else
-			readSuccess = true;
+	if(originSection != previousOriginSection || direction != previousDirection || layoutValid == false) {
+		layoutResult = SuperTrakReadLayout(originSection, direction, info);
+		if(layoutResult != stPOS_ERROR_NONE)
+			return layoutResult;
 	}
 	
 	/* Verify the input section */

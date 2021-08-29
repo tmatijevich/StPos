@@ -29,7 +29,7 @@ extern signed long 				totalLength; 						/* Total length of the SuperTrak secti
 extern unsigned short 			endIndex; 							/* Index in sectionAddress[] representing the last section according to originSection */
 extern unsigned char 			previousOriginSection; 				/* The value of originSection in the last call to SuperTrakReadLayout() */
 extern unsigned char 			previousDirection; 					/* The value of direction in the last call to SuperTrakReadLayout() */
-extern unsigned char 			readSuccess; 						/* The last call to SuperTrakReadLayout() was successful */
+extern unsigned char 			layoutValid; 						/* The last call to SuperTrakReadLayout() was successful */
 
 /* Function prototypes */
 signed long SuperTrakReadLayout(unsigned char originSection, signed long direction, struct SuperTrakPositionInfoType *info);

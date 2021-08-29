@@ -23,7 +23,7 @@ signed long 			totalLength; 						/* Total length of the SuperTrak section netwo
 unsigned short 			endIndex; 							/* Index in sectionAddress[] representing the last section according to originSection */
 unsigned char 			previousOriginSection; 				/* The value of originSection in the last call to SuperTrakReadLayout() */
 unsigned char 			previousDirection; 					/* The value of direction in the last call to SuperTrakReadLayout() */
-unsigned char 			readSuccess; 						/* The last call to SuperTrakReadLayout() was successful */
+unsigned char 			layoutValid; 						/* The last call to SuperTrakReadLayout() was successful */
 
 /* Read/update the global SuperTrak network layout reference */
 signed long SuperTrakReadLayout(unsigned char originSection, signed long direction, struct SuperTrakPositionInfoType *info) {
@@ -33,15 +33,14 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	unsigned char i, i_0, j;
 	
 	/* Reset global variables */
-	sectionCount = 0;
-	for(i = 0; i < MAX_SECTION; i++) {
-		sectionAddress[i] 	= 0;
-		sectionType[i] 		= 0;
-		sectionMapping[i] 	= 0;
-		startingPosition[i] = 0;
-	}
-	sectionMapping[MAX_SECTION] = 0;
-	totalLength = 0;
+	sectionCount 	= 0;
+	memset(sectionAddress, 0, sizeof(sectionAddress));
+	memset(sectionType, 0, sizeof(sectionType));
+	memset(sectionMapping, 0, sizeof(sectionMapping));
+	memset(startingPosition, 0, sizeof(startingPosition));
+	totalLength 	= 0;
+	endIndex 		= 0;
+	layoutValid 	= false; /* Invalidate until successful completion */
 	
 	/* Read the SuperTrak section count */
 	info->sectionCountResult = SuperTrakServChanRead(
@@ -166,8 +165,14 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 		}
 	}
 	
+	/* Compute the total length of the SuperTrak network */
 	for(i = 0; i < sectionCount; i++)
 		totalLength += sectionLengths[sectionType[i]];
+	
+	/* Update previous inputs, validate */
+	previousOriginSection 	= originSection;
+	previousDirection 		= direction;
+	layoutValid 			= true;
 
 	return stPOS_ERROR_NONE;
 

@@ -11,10 +11,10 @@ signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char o
 	
 	/* Declare local variables */
 	signed long sectionLength; /* Store the length of the current section */
-	signed long readResult, lowerBound, upperBound;
+	signed long layoutResult, lowerBound, upperBound;
 	unsigned char i;
 	
-	/* Reset the solution, zero if error */
+	/* Reset the solution */
 	*section = 0;
 	*sectionPosition = 0;
 	
@@ -22,14 +22,10 @@ signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char o
 	memset(info, 0, sizeof(*info));
 	
 	/* Re-read the SuperTrak layout */
-	if(originSection != previousOriginSection || direction != previousDirection || readSuccess == false) {
-		readResult = SuperTrakReadLayout(originSection, direction, info);
-		if(readResult != stPOS_ERROR_NONE) {
-			readSuccess = false;
-			return readResult;
-		}
-		else
-			readSuccess = true;
+	if(originSection != previousOriginSection || direction != previousDirection || layoutValid == false) {
+		layoutResult = SuperTrakReadLayout(originSection, direction, info);
+		if(layoutResult != stPOS_ERROR_NONE)
+			return layoutResult;
 	}
 	
 	/* Verify the input global position */
