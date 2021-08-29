@@ -55,7 +55,9 @@ signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPo
 	}
 	else { /* Left */
 		if(sectionMapping[section] == endIndex && sectionPosition == 0) /* Should not be rollover in the negative direction (encoder offset is zero at the first coil) */
-			*globalPosition = 0;
+			*globalPosition = 0; /* Wrap at global end */
+		else if(section == originSection && sectionPosition > sectionLength)
+			*globalPosition = totalLength + (sectionLength - sectionPosition); /* Wrap past global end */
 		else 
 			*globalPosition = startingPosition[sectionMapping[section]] + sectionLength - sectionPosition;
 	}
