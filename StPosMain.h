@@ -25,13 +25,14 @@ extern unsigned short 			sectionType[MAX_SECTION]; 			/* SuperTrak section type 
 extern unsigned short 			sectionMapping[MAX_SECTION + 1]; 	/* Map from user address (SuperTrak section number 1..50) to network order 0..49 */
 extern signed long 				startingPosition[MAX_SECTION]; 		/* [um] Starting position of each section according to originSection and direction */
 extern const signed long 		sectionLengths[]; 					/* Length of a SuperTrak section according to type */
+extern signed long 				totalLength; 						/* Total length of the SuperTrak section network */
 extern unsigned short 			endIndex; 							/* Index in sectionAddress[] representing the last section according to originSection */
 extern unsigned char 			previousOriginSection; 				/* The value of originSection in the last call to SuperTrakReadLayout() */
 extern unsigned char 			previousDirection; 					/* The value of direction in the last call to SuperTrakReadLayout() */
 extern unsigned char 			readSuccess; 						/* The last call to SuperTrakReadLayout() was successful */
 
 /* Function prototypes */
-signed long SuperTrakReadLayout(unsigned char originSection, signed long direction, struct SuperTrakPositionDiagType *diag);
+signed long SuperTrakReadLayout(unsigned char originSection, signed long direction, struct SuperTrakPositionInfoType *info);
 
 #endif /* __ST_POS_MAIN_H__ */
 

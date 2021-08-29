@@ -11,7 +11,8 @@ TYPE
 		stPOS_ERROR_INPUTORIGIN, (*Invalid input origin section for the given layout section count*)
 		stPOS_ERROR_INPUTSECTION, (*Invalid input section for the given layout section count*)
 		stPOS_ERROR_INPUTSECTIONPOS, (*Input position exceeds the allowed section position limit*)
-		stPOS_ERROR_INPUTGLOBALPOS (*Input global position exceeds the layout total length limit*)
+		stPOS_ERROR_INPUTGLOBALPOS, (*Input global position exceeds the layout total length limit*)
+		stPOS_ERROR_NETWORKGLOBAL (*The global position was not found in the SuperTrak section network*)
 		);
 	SuperTrakPositionInfoType : 	STRUCT  (*StPos position transformation diagnostic information*)
 		sectionCountResult : UINT; (*Service channel read result for parameter 1080 - Section Count [UInt16]*)
@@ -22,8 +23,11 @@ TYPE
 		sectionCountMax : UINT; (*Maximum sections allowed in a SuperTrak layout*)
 		sectionType : UINT; (*Section type result*)
 		sectionTypeMax : UINT; (*Maximum allowed section type*)
+		networkIndex : UINT; (*Index in the network layout array of section user addresses*)
+		originSection : USINT; (*Input origin section when in context of an error*)
 		sectionPosition : DINT; (*Input section position when in context of an error*)
 		sectionPositionMax : DINT; (*Maximum allowed input position depending on the section type*)
+		globalPosition : DINT; (*Input global position when in context of an error*)
 		totalLength : DINT; (*Total length of the valid SuperTrak layout*)
 	END_STRUCT;
 END_TYPE

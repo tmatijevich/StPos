@@ -7,34 +7,36 @@
 #include "StPosMain.h"
 
 /* Return the section position on the SuperTrak loop */
-signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char originSection, signed long direction, unsigned char *section, signed long *sectionPosition, struct SuperTrakPositionDiagType *diag) {
+signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char originSection, signed long direction, unsigned char *section, signed long *sectionPosition, struct SuperTrakPositionInfoType *info) {
 	
 	/* Declare local variables */
 	signed long sectionLength; /* Store the length of the current section */
 	signed long readResult, lowerBound, upperBound;
 	unsigned char i;
 	
-	/* Reset diagnostic information */
-	diag->ServiceChannelResult_1080 = 0;
-	diag->ServiceChannelResult_1081 = 0;
-	diag->ServiceChannelResult_1082 = 0;
-	diag->SectionCount 		= 0;
-	diag->SectionAddress 	= 0;
-	diag->SectionNumber 	= 0;
-	
 	/* Reset the solution, zero if error */
 	*section = 0;
 	*sectionPosition = 0;
 	
+	/* Reset diagnostic information */
+	memset(info, 0, sizeof(*info));
+	
 	/* Re-read the SuperTrak layout */
 	if(originSection != previousOriginSection || direction != previousDirection || readSuccess == false) {
-		readResult = SuperTrakReadLayout(originSection, direction, diag);
+		readResult = SuperTrakReadLayout(originSection, direction, info);
 		if(readResult != stPOS_ERROR_NONE) {
 			readSuccess = false;
 			return readResult;
 		}
 		else
 			readSuccess = true;
+	}
+	
+	/* Verify the input global position */
+	if(globalPosition < 0 || globalPosition > totalLength) { 
+		info->globalPosition 	= globalPosition;
+		info->totalLength 		= totalLength;
+		return stPOS_ERROR_INPUTGLOBALPOS;
 	}
 	
 	/* Search for the section */
@@ -68,6 +70,6 @@ signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char o
 		}
 	}
 	
-	return stPOS_ERROR_POSITION;
+	return stPOS_ERROR_NETWORKGLOBAL; /* Section not found */
 
 } /* End function */

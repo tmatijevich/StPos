@@ -2,25 +2,25 @@
 FUNCTION SuperTrakGlobalPosition : DINT (*Return the global position on the SuperTrak loop*)
 	VAR_INPUT
 		section : USINT; (*Section number*)
-		sectionPosition : DINT; (*[um] Position with reference to left side of section*)
-		originSection : USINT; (*First section number on loop of global position reference*)
-		direction : DINT; (*Global direction*)
+		sectionPosition : DINT; (*[um] Position referenced to section's left edge*)
+		originSection : USINT; (*First section in layout for global reference*)
+		direction : DINT; (*Global direction (Left - 0, Right - 1)*)
 	END_VAR
 	VAR_IN_OUT
-		globalPosition : DINT; (*[um] Position computed on the global reference*)
-		diag : SuperTrakPositionDiagType; (*Share diagnostic information*)
+		globalPosition : DINT; (*[um] Global position result*)
+		info : SuperTrakPositionInfoType; (*Diagnostic information*)
 	END_VAR
 END_FUNCTION
 
 FUNCTION SuperTrakSectionPosition : DINT (*Return the section position on the SuperTrak loop*)
 	VAR_INPUT
-		globalPosition : DINT; (*[um] Global reference position*)
-		originSection : USINT; (*First section number on loop of global position reference*)
-		direction : DINT; (*Global direction*)
+		globalPosition : DINT; (*[um] Global position referenced to origin section*)
+		originSection : USINT; (*First section in layout for global reference*)
+		direction : DINT; (*Global direction (Left - 0, Right - 1)*)
 	END_VAR
 	VAR_IN_OUT
-		section : USINT; (*Computed section number*)
-		sectionPosition : DINT; (*[um] Computed section position*)
-		diag : SuperTrakPositionDiagType; (*Share diagnostic information*)
+		section : USINT; (*Section number result*)
+		sectionPosition : DINT; (*[um] Section position result referenced to section's left edge*)
+		info : SuperTrakPositionInfoType; (*Diagnostic information*)
 	END_VAR
 END_FUNCTION
