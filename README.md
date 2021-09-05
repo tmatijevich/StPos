@@ -4,7 +4,9 @@ StPos is a library for Automation Studio projects to use with the SuperTrak modu
 
 This library provides functions to translate between local section positions and global loop positions.  The functions are valid for any network layout.  The global reference is defined by user inputs: origin section and direction.  [Download the library here](https://github.com/tmatijevich/StPos/releases/latest/download/StPos.zip).
 
-<img src="https://user-images.githubusercontent.com/33841634/124838969-831b1c80-df4d-11eb-886e-6ab1ff9d2343.png" alt="Global position sample 2021-07-07_18 01 23" style="display:block; margin-left:auto; margin-right:auto;">
+<p align="center">
+<img src="https://user-images.githubusercontent.com/33841634/124838969-831b1c80-df4d-11eb-886e-6ab1ff9d2343.png" alt="Global position sample 2021-07-07_18 01 23" >
+</p>
 
 ## Clone
 
@@ -93,7 +95,7 @@ Version 4.9.3.144 SP
 
 You may notice build warnings such as "Additional directory/file found ..." from the StPos submodule.
 
-![File folder build warnings 2021-07-12_13 51 29](https://user-images.githubusercontent.com/33841634/125345690-77996e00-e31e-11eb-9f58-4bf563ac07a4.png)
+![Build warnings](https://user-images.githubusercontent.com/33841634/132114205-df6cd296-ad92-4381-a31f-fe0b8be230eb.png)
 
 Add `-W 9232 9233` to your CPU's build properties window under *Additional build options* to suppress.
 
