@@ -2,6 +2,9 @@
 
 [Release information](https://github.com/tmatijevich/StPos/releases)
 
+## 0.2.1 (2021-10-13)
+- Declare direction constants for older versions of SuperTrak
+
 ## 0.2.0 (2021-09-04)
 - Add support for wide e-turn 180 degree segments and low power straight segments
 - Fix rollover conditions
