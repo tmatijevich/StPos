@@ -13,10 +13,15 @@
 #include <stdbool.h> 	/* C99 standard header */
 
 /* Constants */
+#ifndef stDIRECTION_RIGHT   				/* Define directions if not already from SuperTrak.h */
+#define stDIRECTION_RIGHT 			1
+#endif
+#ifndef stDIRECTION_LEFT
+#define stDIRECTION_LEFT 			0
+#endif
 #define MAX_SECTION 				50
 #define MAX_TYPE 					4
-#define SECTION_POSITION_EXTENSION 	5000 /* From unique encoder calibrations, allow section position inputs to exceed
-											the length of section by 5 mm */
+#define SECTION_LENGTH_TOLERANCE 	5000 	/* Tolerance for calibrated section length, see Encoders page in TrackMaster */
 
 /* Global variables (promise to declare in source file) */
 extern unsigned short 			sectionCount; 						/* SuperTrak active section count */

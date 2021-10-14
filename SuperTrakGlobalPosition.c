@@ -35,10 +35,10 @@ signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPo
 	sectionLength = sectionLengths[sectionType[sectionMapping[section]]];
 	
 	/* Verify the input section position */
-	if(sectionPosition < 0 || sectionPosition > sectionLength + SECTION_POSITION_EXTENSION) { /* Allow some rollover */ 
+	if(sectionPosition < 0 || sectionPosition > sectionLength + SECTION_LENGTH_TOLERANCE) { /* Allow some rollover */ 
 		info->section 				= section;
 		info->sectionPosition 		= sectionPosition;
-		info->sectionPositionMax 	= sectionLength + SECTION_POSITION_EXTENSION;
+		info->sectionPositionMax 	= sectionLength + SECTION_LENGTH_TOLERANCE;
 		return stPOS_ERROR_INPUTSECTIONPOS;
 	}
 	
