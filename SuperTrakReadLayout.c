@@ -20,16 +20,17 @@ const signed long 		sectionLengths[] = { 				/* Length of a SuperTrak section ac
 	759347 													/* 4 - Wide curve 1.5 meter right */
 };
 signed long 			totalLength; 						/* Total length of the SuperTrak section network */
+unsigned short 			originIndex; 						/* Index in sectionAddress[] representing the first section according to originSection */
 unsigned short 			endIndex; 							/* Index in sectionAddress[] representing the last section according to originSection */
-unsigned char 			previousOriginSection; 				/* The value of originSection in the last call to SuperTrakReadLayout() */
+unsigned short 			previousOriginSection; 				/* The value of originSection in the last call to SuperTrakReadLayout() */
 unsigned char 			previousDirection; 					/* The value of direction in the last call to SuperTrakReadLayout() */
 unsigned char 			layoutValid; 						/* The last call to SuperTrakReadLayout() was successful */
+unsigned char 			layoutLinear; 						/* The layout has no curved sections */
 
 /* Read/update the global SuperTrak network layout reference */
 signed long SuperTrakReadLayout(unsigned char originSection, signed long direction, struct SuperTrakPositionInfoType *info) {
 	
 	/* Declare local variables */
-	unsigned short originIndex;
 	unsigned char i, i_0, j;
 	
 	/* Reset global variables */
@@ -75,6 +76,7 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 		return stPOS_ERROR_SERVCHAN;
 	
 	/* Read each section's type */
+	layoutLinear = true; /* Assume true before loop, clear if a curve is found */
 	for(i = 0; i < sectionCount; i++) {
 		info->sectionTypeResult = SuperTrakServChanRead(
 			sectionAddress[i], 				/* Section parameter */
@@ -100,10 +102,14 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 			info->section 		= sectionAddress[i];
 			return stPOS_ERROR_SECTIONTYPE;
 		}
+		
+		/* Determine if linear or loop */
+		if(sectionType[i] != 0 && sectionType[i] != 2 && layoutLinear) /* Straight or low-power straight */
+			layoutLinear = false;
 	}
 	
 	/* Verify the origin section */
-	if(originSection == 0 || originSection > sectionCount) {
+	if((originSection == 0 || originSection > sectionCount) && layoutLinear == false) {
 		info->originSection = originSection;
 		info->sectionCount 	= sectionCount;
 		return stPOS_ERROR_INPUTORIGIN;
@@ -113,7 +119,7 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	for(i = 0; i < sectionCount; i++) {
 		sectionMapping[sectionAddress[i]] = i; /* 1..50 Use to map from section number to network address */
 		
-		if(originSection == sectionAddress[i]) {
+		if(originSection == sectionAddress[i] && layoutLinear == false) {
 			originIndex = i;
 			
 			/* Determine the tail section user address */
@@ -129,6 +135,16 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 				else
 					endIndex = originIndex + 1;
 			}
+		}
+	}
+	if(layoutLinear == true) {
+		if(direction == stDIRECTION_RIGHT) {
+			originIndex = 0;
+			endIndex 	= sectionCount - 1;
+		}
+		else {
+			originIndex = sectionCount - 1;
+			endIndex 	= 0;
 		}
 	}
 	

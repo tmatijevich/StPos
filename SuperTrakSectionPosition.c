@@ -42,8 +42,14 @@ signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char o
 		upperBound 		= startingPosition[i] + sectionLength;
 		if(direction == stDIRECTION_RIGHT) {
 			if(i == endIndex && globalPosition == upperBound) {
-				*section 			= originSection;
-				*sectionPosition 	= 0;
+				if(layoutLinear == false) {
+					*section 			= sectionAddress[originIndex];
+					*sectionPosition 	= 0;
+				}
+				else { /* Do not wrap for linear layouts */
+					*section 			= sectionAddress[i];
+					*sectionPosition 	= globalPosition - lowerBound; /* sectionLength */
+				}
 				return stPOS_ERROR_NONE;
 			}
 			else if(lowerBound <= globalPosition && globalPosition < upperBound) {
@@ -53,9 +59,15 @@ signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char o
 			}
 		}
 		else { /* LEFT */
-			if(i == sectionMapping[originSection] && globalPosition == lowerBound) {
-				*section 			= sectionAddress[endIndex];
-				*sectionPosition 	= 0;
+			if(i == originIndex && globalPosition == lowerBound) {
+				if(layoutLinear == false) {
+					*section 			= sectionAddress[endIndex];
+					*sectionPosition 	= 0;
+				}
+				else { /* Do not wrap for linear layouts */
+					*section 			= sectionAddress[i];
+					*sectionPosition 	= sectionLength - (globalPosition - lowerBound); /* sectionLength */
+				}
 				return stPOS_ERROR_NONE;
 			}
 			else if(lowerBound < globalPosition && globalPosition <= upperBound) {

@@ -31,10 +31,12 @@ extern unsigned short 			sectionMapping[MAX_SECTION + 1]; 	/* Map from user addr
 extern signed long 				startingPosition[MAX_SECTION]; 		/* [um] Starting position of each section according to originSection and direction */
 extern const signed long 		sectionLengths[]; 					/* Length of a SuperTrak section according to type */
 extern signed long 				totalLength; 						/* Total length of the SuperTrak section network */
+extern unsigned short 			originIndex; 						/* Index in sectionAddress[] representing the first section according to originSection */
 extern unsigned short 			endIndex; 							/* Index in sectionAddress[] representing the last section according to originSection */
-extern unsigned char 			previousOriginSection; 				/* The value of originSection in the last call to SuperTrakReadLayout() */
+extern unsigned short 			previousOriginSection; 				/* The value of originSection in the last call to SuperTrakReadLayout() */
 extern unsigned char 			previousDirection; 					/* The value of direction in the last call to SuperTrakReadLayout() */
 extern unsigned char 			layoutValid; 						/* The last call to SuperTrakReadLayout() was successful */
+extern unsigned char 			layoutLinear; 						/* The layout has no curved sections */
 
 /* Function prototypes */
 signed long SuperTrakReadLayout(unsigned char originSection, signed long direction, struct SuperTrakPositionInfoType *info);
