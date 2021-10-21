@@ -17,7 +17,8 @@ const signed long 		sectionLengths[] = { 				/* Length of a SuperTrak section ac
 	1030000, 												/* 1 - Standard curve 1 meter */
 	1000000, 												/* 2 - Lower power straight 1 meter */
 	759347, 												/* 3 - Wide curve 1.5 meter left */
-	759347 													/* 4 - Wide curve 1.5 meter right */
+	759347, 												/* 4 - Wide curve 1.5 meter right */
+	1009805, 												/* 5 - 90 degree curve section */
 };
 signed long 			totalLength; 						/* Total length of the SuperTrak section network */
 unsigned short 			originIndex; 						/* Index in sectionAddress[] representing the first section according to originSection */

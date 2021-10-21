@@ -20,7 +20,7 @@
 #define stDIRECTION_LEFT 			0
 #endif
 #define MAX_SECTION 				50
-#define MAX_TYPE 					4
+#define MAX_TYPE 					5
 #define SECTION_LENGTH_TOLERANCE 	5000 	/* Tolerance for calibrated section length, see Encoders page in TrackMaster */
 
 /* Global variables (promise to declare in source file) */
