@@ -27,3 +27,10 @@ FUNCTION SuperTrakTotalLength : DINT (*Return the total pallet travel length of 
 		info : SuperTrakPositionInfoType; (*Diagnostic information*)
 	END_VAR
 END_FUNCTION
+
+FUNCTION SuperTrakSystemLayout : DINT (*Return the SuperTrak system layout*)
+	VAR_INPUT
+		layout : SuperTrakSystemLayoutType; (*Reference to the system layout structure*)
+		info : SuperTrakPositionInfoType; (*Diagnostic information*)
+	END_VAR
+END_FUNCTION

@@ -1,7 +1,7 @@
 
 TYPE
 	SuperTrakPositionErrorEnum : 
-		( (*StPos function call results*)
+		( (*StPos results*)
 		stPOS_ERROR_NONE := 0, (*Function call successful*)
 		stPOS_ERROR_SERVCHAN := 10, (*The service channel read request returned an error. See SuperTrak library for error code descriptions.*)
 		stPOS_ERROR_SECTIONCOUNT, (*SuperTrak section count exceeds the maximum*)
@@ -14,7 +14,7 @@ TYPE
 		stPOS_ERROR_INPUTGLOBALPOS, (*Input global position exceeds the layout total length limit*)
 		stPOS_ERROR_NETWORKGLOBAL (*The global position was not found in the SuperTrak section network*)
 		);
-	SuperTrakPositionInfoType : 	STRUCT  (*StPos position transformation diagnostic information*)
+	SuperTrakPositionInfoType : 	STRUCT  (*StPos diagnostic information*)
 		sectionCountResult : UINT; (*Service channel read result for parameter 1080 - Section Count [UInt16]*)
 		sectionUserAddressResult : UINT; (*Service channel read result for parameter 1081 - Section User Address [UInt16]*)
 		sectionTypeResult : UINT; (*Service channel read result for parameter 1082 - Section Type [UInt16]*)
@@ -29,5 +29,11 @@ TYPE
 		sectionPositionMax : DINT; (*Maximum allowed input position depending on the section type*)
 		globalPosition : DINT; (*Input global position when in context of an error*)
 		totalLength : DINT; (*Total length of the valid SuperTrak layout*)
+	END_STRUCT;
+	SuperTrakSystemLayoutType : 	STRUCT  (*StPos system layout information*)
+		sectionCount : USINT; (*Number of sections in the layout*)
+		sectionAddress : ARRAY[0..MAX_SECTION_INDEX]OF USINT; (*Section numbers from left network tail to right network tail*)
+		sectionType : ARRAY[0..MAX_SECTION_INDEX]OF USINT; (*Section types in network order*)
+		layoutLinear : BOOL; (*True - linear, False - loop*)
 	END_STRUCT;
 END_TYPE
