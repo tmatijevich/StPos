@@ -20,9 +20,13 @@ The global reference is defined by two user inputs: origin section and direction
 4. Efficient function calls for cyclic use
 5. Export system layout for external processing
 
+![StPos 6 section layout example900](https://user-images.githubusercontent.com/33841634/138628068-90dba192-4208-4b9a-aa2f-dcc6cd941c00.png)
+
 <p align="center">
-<img src="https://user-images.githubusercontent.com/33841634/124838969-831b1c80-df4d-11eb-886e-6ab1ff9d2343.png" alt="Global position sample 2021-07-07_18 01 23" >
+<img height="452" src="https://user-images.githubusercontent.com/33841634/138628120-03121570-b82e-4fb1-99d8-d8afd9ce0f57.png" alt="StPos 6 section sample plot" >
 </p>
+
+In this example, the origin section is 2 and the positive direction is left (clockwise).
 
 ## Clone
 
@@ -138,12 +142,12 @@ MyLayout
   sectionAddress[4]     1
   sectionAddress[5]     6  (Right network tail)
   ...
-  sectionType[0]        0
+  sectionType[0]        0  (Standard straight)
   sectionType[1]        0
-  sectionType[2]        1
+  sectionType[2]        1  (Standard curve)
   sectionType[3]        0
   sectionType[4]        0
-  sectionType[5]        1
+  sectionType[5]        1  
   ...
   layoutLinear          FALSE
 ```
