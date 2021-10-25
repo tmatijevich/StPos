@@ -2,6 +2,10 @@
 
 [Release information](https://github.com/tmatijevich/StPos/releases)
 
+## 0.2.2 (2021-10-24)
+- Add support for linear and 90 degree layouts
+- Add function to obtain system layout information
+
 ## 0.2.1 (2021-10-13)
 - Declare direction constants for older versions of SuperTrak
 
