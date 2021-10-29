@@ -52,8 +52,6 @@ Then add the library in Automation Studio logical view with toolbox object "Exis
 - [SuperTrakTotalLength()](#supertraktotallength)
 - [SuperTrakSystemLayout()](#supertraksystemlayout)
 
-**Output** parameters in bold.
-
 ---
 
 #### [SuperTrakGlobalPosition](https://github.com/tmatijevich/StPos/blob/main/SuperTrakGlobalPosition.c?ts=4)
@@ -65,15 +63,15 @@ signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPo
 
 ##### Parameters
 
-Type 						| Parameter 			| Unit 	| Description
-----------------------------|-----------------------|-------|------------
-signed long (DINT) 			| **return** 			| 		| 0 - success, otherwise see SuperTrakPositionErrorEnum
-unsigned char (USINT) 		| section 				| 		| Input section
-signed long (DINT) 			| sectionPosition 		| um 	| Input section position 
-unsigned char (USINT) 		| originSection 		| 		| Global reference section on system layout 
-signed long (DINT) 			| direction 			| 		| System left/clockwise (0) or right/counter-clockwise (1) defined as position direction 
-signed long (DINT) 			| **globalPosition** 	| um 	| Output global position 
-SuperTrakPositionInfoType 	| **info** 				| 		| Diagnostic information
+Parameter 				| Type 						| Unit 	| Description
+:----------------------:|---------------------------|-------|------------
+return&rarr; 			| DINT						| 		| 0 - success, otherwise see SuperTrakPositionErrorEnum
+&rarr;section 			| USINT 					| 		| Input section
+&rarr;sectionPosition 	| DINT 						| um 	| Input section position 
+&rarr;originSection 	| USINT 					| 		| Global reference section on system layout 
+&rarr;direction 		| DINT 						| 		| System left/clockwise (0) or right/counter-clockwise (1) defined as position direction 
+globalPosition&rarr; 	| DINT 						| um 	| Output global position 
+info&rarr; 				| SuperTrakPositionInfoType |		| Diagnostic information
 
 ---
 
@@ -86,15 +84,15 @@ signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char o
 
 ##### Parameters
 
-Type 						| Parameter 			| Unit 	| Description
-----------------------------|-----------------------|-------|------------
-signed long (DINT) 			| **return** 			| 		| 0 - success, otherwise see SuperTrakPositionErrorEnum
-unsigned char (USINT) 		| globalPosition 		| um 	| Input global position 
-unsigned char (USINT) 		| originSection 		| 		| Global reference section on system layout 
-signed long (DINT) 			| direction 			| 		| System left/clockwise (0) or right/counter-clockwise (1) defined as position direction 
-unsigned char (USINT) 		| **section** 			| 		| Output section
-signed long (DINT) 			| **sectionPosition** 	| um 	| Output section position 
-SuperTrakPositionInfoType 	| **info** 				| 		| Diagnostic information
+Parameter 				| Type 						| Unit 	| Description
+:----------------------:|---------------------------|-------|------------
+return&rarr; 			| DINT 						| 		| 0 - success, otherwise see SuperTrakPositionErrorEnum
+&rarr;globalPosition 	| DINT 						| um 	| Input global position 
+&rarr;originSection 	| USINT 					| 		| Global reference section on system layout 
+&rarr;direction 		| DINT 						| 		| System left/clockwise (0) or right/counter-clockwise (1) defined as position direction 
+section&rarr; 			| USINT 					| 		| Output section
+sectionPosition&rarr; 	| DINT 						| um 	| Output section position 
+info&rarr; 				| SuperTrakPositionInfoType | 		| Diagnostic information
 
 ---
 
@@ -107,11 +105,11 @@ signed long SuperTrakTotalLength(signed long *length, struct SuperTrakPositionIn
 
 ##### Parameters
 
-Type 						| Parameter 			| Unit 	| Description
-----------------------------|-----------------------|-------|------------
-signed long (DINT) 			| **return** 			| 		| 0 - success, otherwise see SuperTrakPositionErrorEnum
-signed long (DINT) 			| **length** 			| um 	| Total length of SuperTrak layout
-SuperTrakPositionInfoType 	| **info** 				| 		| Diagnostic information
+Parameter 		| Type 						| Unit 	| Description
+:--------------:|---------------------------|-------|------------
+return&rarr; 	| DINT						| 		| 0 - success, otherwise see SuperTrakPositionErrorEnum
+length&rarr; 	| DINT						| um 	| Total length of SuperTrak layout
+info&rarr; 		| SuperTrakPositionInfoType	| 		| Diagnostic information
 
 ---
 
@@ -124,11 +122,11 @@ signed long SuperTrakSystemLayout(struct SuperTrakSystemLayoutType *layout, stru
 
 ##### Parameters
 
-Type 						| Parameter 			| Unit 	| Description
-----------------------------|-----------------------|-------|------------
-signed long (DINT) 			| **return** 			| 		| 0 - success, otherwise see SuperTrakPositionErrorEnum
-SuperTrakSystemLayoutType 	| **layout** 			| 		| System layout information
-SuperTrakPositionInfoType 	| **info** 				| 		| Diagnostic information
+Parameter 		| Type 							| Unit 	| Description
+:--------------:|-------------------------------|-------|------------
+return&rarr; 	| DINT							| 		| 0 - success, otherwise see SuperTrakPositionErrorEnum
+layout&rarr; 	| SuperTrakPositionLayoutType 	| 		| System layout information
+info&rarr; 		| SuperTrakPositionInfoType		| 		| Diagnostic information
 
 #### Example
 
