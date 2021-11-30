@@ -7,6 +7,8 @@ TYPE
 		stPOS_ERROR_SECTIONCOUNT, (*SuperTrak section count exceeds the maximum*)
 		stPOS_ERROR_SECTIONADDRESS, (*SuperTrak section address exceeds the layout section count*)
 		stPOS_ERROR_SECTIONTYPE, (*Invalid SuperTrak section type*)
+		stPOS_ERROR_HEADSECTION,
+		stPOS_ERROR_FLOWDIRECTION,
 		stPOS_ERROR_NETWORKORDER, (*Unexpected SuperTrak section network order*)
 		stPOS_ERROR_INPUTORIGIN, (*Invalid input origin section for the given layout section count*)
 		stPOS_ERROR_INPUTSECTION, (*Invalid input section for the given layout section count*)
@@ -18,12 +20,16 @@ TYPE
 		sectionCountResult : UINT; (*Service channel read result for parameter 1080 - Section Count [UInt16]*)
 		sectionUserAddressResult : UINT; (*Service channel read result for parameter 1081 - Section User Address [UInt16]*)
 		sectionTypeResult : UINT; (*Service channel read result for parameter 1082 - Section Type [UInt16]*)
+		headSectionResult : UINT;
+		flowDirectionResult : UINT;
 		section : UINT; (*User address of the section in context of an error*)
 		sectionCount : UINT; (*Section count of the system layout*)
 		sectionCountMax : UINT; (*Maximum sections allowed in a SuperTrak layout*)
 		sectionType : UINT; (*Section type result*)
 		sectionTypeMax : UINT; (*Maximum allowed section type*)
 		networkIndex : UINT; (*Index in the network layout array of section user addresses*)
+		headSection : UINT;
+		flowDirection : UINT;
 		originSection : USINT; (*Input origin section when in context of an error*)
 		sectionPosition : DINT; (*Input section position when in context of an error*)
 		sectionPositionMax : DINT; (*Maximum allowed input position depending on the section type*)
@@ -32,8 +38,11 @@ TYPE
 	END_STRUCT;
 	SuperTrakSystemLayoutType : 	STRUCT  (*StPos system layout information*)
 		sectionCount : USINT; (*Number of sections in the layout*)
-		sectionAddress : ARRAY[0..MAX_SECTION_INDEX]OF USINT; (*Section numbers from left network tail to right network tail*)
-		sectionType : ARRAY[0..MAX_SECTION_INDEX]OF USINT; (*Section types in network order*)
+		sectionType : ARRAY[0..MAX_SECTION]OF USINT;
+		networkOrder : ARRAY[0..MAX_SECTION_INDEX]OF USINT; (*Section numbers from left network tail to right network tail*)
+		networkMapping : ARRAY[0..MAX_SECTION]OF USINT; (*Map from section number 1..50 to network index 0..49*)
+		flowOrder : ARRAY[0..MAX_SECTION_INDEX]OF USINT; (*Section numbers starting at head and continuing in flow direction*)
+		flowMapping : ARRAY[0..MAX_SECTION]OF USINT; (*Map from section number 1..50 to flow index 0..49*)
 		layoutLinear : BOOL; (*True - linear, False - loop*)
 	END_STRUCT;
 END_TYPE

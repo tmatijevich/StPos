@@ -63,7 +63,7 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	/* 
 		Read the SuperTrak system layout network addresses 
 		Increasing network order i moves in the positive right direction stDIRECTION_RIGHT 
-		Decreasing network order i moves in the negative left direction st_DIRECTION_LEFT 
+		Decreasing network order i moves in the negative left direction stDIRECTION_LEFT 
 	*/
 	info->sectionUserAddressResult = SuperTrakServChanRead(
 		0, 									/* System parameter */
