@@ -26,30 +26,34 @@ signed long SuperTrakSystemLayout(struct SuperTrakSystemLayoutType *layout, stru
 	}
 	
 	/* Read head section and flow direction */
-	info->headSectionResult = SuperTrakServChanRead(
-		0, 
-		stPAR_LOGICAL_HEAD_SECTION,
-		0, 
-		1, 
-		(unsigned long)&headSection,
-		sizeof(&headSection)
+	info->serviceChannelResult = SuperTrakServChanRead(
+		0, 								/* System parameter */
+		stPAR_LOGICAL_HEAD_SECTION, 	/* Parameter */
+		0, 								/* Start index */
+		1, 								/* Count */
+		(unsigned long)&headSection, 	/* Buffer address */
+		sizeof(&headSection) 			/* Buffer size */
 	);
-	if(info->headSectionResult != scERR_SUCCESS)
+	if(info->serviceChannelResult != scERR_SUCCESS) {
+		info->serviceChannelParameter = stPAR_LOGICAL_HEAD_SECTION;
 		return stPOS_ERROR_SERVCHAN;
+	}
 	else if(headSection == 0 || headSection > sectionCount) {
 		info->headSection = headSection;
 		return stPOS_ERROR_HEADSECTION;
 	}
-	info->flowDirectionResult = SuperTrakServChanRead(
-		0, 
-		stPAR_FLOW_DIRECTION,
-		0, 
-		1, 
-		(unsigned long)&flowDirection,
-		sizeof(&flowDirection)
+	info->serviceChannelResult = SuperTrakServChanRead(
+		0, 								/* System parameter */
+		stPAR_FLOW_DIRECTION, 			/* Parameter */
+		0, 								/* Start index */
+		1, 								/* Count */
+		(unsigned long)&flowDirection, 	/* Buffer address */
+		sizeof(&flowDirection) 			/* Buffer size */
 	);
-	if(info->flowDirectionResult != scERR_SUCCESS)
+	if(info->serviceChannelResult != scERR_SUCCESS) {
+		info->serviceChannelParameter = stPAR_FLOW_DIRECTION;
 		return stPOS_ERROR_SERVCHAN;
+	}
 	else if(flowDirection != stDIRECTION_RIGHT && flowDirection != stDIRECTION_LEFT) {
 		info->flowDirection = flowDirection;
 		return stPOS_ERROR_FLOWDIRECTION;
@@ -67,8 +71,7 @@ signed long SuperTrakSystemLayout(struct SuperTrakSystemLayoutType *layout, stru
 	/* Find the head section and proceed to left or right */
 	for(i = 0; i < sectionCount; i++) {
 		if(sectionAddress[i] == headSection) {
-			layout->flowOrder[0] 					= sectionAddress[i];
-			layout->flowMapping[sectionAddress[i]] 	= 0;
+			layout->flowOrder[0] = sectionAddress[i];
 			if(flowDirection == stDIRECTION_RIGHT) {
 				if(i == (sectionCount - 1)) i = 0;
 				else i += 1;
@@ -84,8 +87,7 @@ signed long SuperTrakSystemLayout(struct SuperTrakSystemLayoutType *layout, stru
 	while(sectionAddress[i] != headSection) {
 		if(++k > sectionCount)
 			return stPOS_ERROR_NETWORKORDER;
-		layout->flowOrder[j] 					= sectionAddress[i];
-		layout->flowMapping[sectionAddress[i]] 	= j++;
+		layout->flowOrder[j++] = sectionAddress[i];
 		if(flowDirection == stDIRECTION_RIGHT) {
 			if(i == (sectionCount - 1)) i = 0;
 			else i += 1;
