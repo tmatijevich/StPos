@@ -2,6 +2,10 @@
 
 [Release information](https://github.com/tmatijevich/StPos/releases)
 
+## 0.2.3 (2021-12-07)
+- Add flow order to system layout 
+- Refine service channel error reporting
+
 ## 0.2.2 (2021-10-24)
 - Add support for linear and 90 degree layouts
 - Add function to obtain system layout information

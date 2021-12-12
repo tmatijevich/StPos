@@ -5,7 +5,7 @@
 This library provides functions to translate between local section positions and global loop positions.  
 The functions are valid for any network layout.  
 The global reference is defined by two user inputs: origin section and direction.  
-**Notice**: This is not an offical B&R library. StPos is provided as is under the GNU GPL v3.0 license agreement.  
+**Notice**: This is not an offical library. StPos is provided as is under the GNU GPL v3.0 license agreement.  
 [Download the library here](https://github.com/tmatijevich/StPos/releases/latest/download/StPos.zip).
 
 ## Features
@@ -13,10 +13,10 @@ The global reference is defined by two user inputs: origin section and direction
 1. SuperTrak positions on a global reference
 2. User-defined positive direction
 3. Support for all SuperTrak layouts
-	- Standard 180<span>&deg;</span> loop
-	- Wide 180<span>&deg;</span> loop
-	- 90<span>&deg;</span> loop
-	- Linear
+    - Standard 180<span>&deg;</span> loop
+    - Wide 180<span>&deg;</span> loop
+    - 90<span>&deg;</span> loop
+    - Linear
 4. Efficient function calls for cyclic use
 5. Export system layout for external processing
 
@@ -63,15 +63,15 @@ signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPo
 
 ##### Parameters
 
-Parameter 				| Type 						| Unit 	| Description
-:----------------------:|---------------------------|-------|------------
-return&rarr; 			| DINT						| 		| 0 - success, otherwise see SuperTrakPositionErrorEnum
-&rarr;section 			| USINT 					| 		| Input section
-&rarr;sectionPosition 	| DINT 						| um 	| Input section position 
-&rarr;originSection 	| USINT 					| 		| Global reference section on system layout 
-&rarr;direction 		| DINT 						| 		| System left/clockwise (0) or right/counter-clockwise (1) defined as position direction 
-globalPosition&rarr; 	| DINT 						| um 	| Output global position 
-info&rarr; 				| SuperTrakPositionInfoType |		| Diagnostic information
+Parameter           | In/Out    | C Type (IEC Type)             | Unit      | Description       
+--------------------|-----------|-------------------------------|-----------|------------------
+section             | In        | unsigned char (USINT)         |           | Input section 
+sectionPosition     | In        | signed long (DINT)            | um        | Input section position 
+originSection       | In        | unsigned char (USINT)         |           | Define global reference section on system layout 
+direction           | In        | signed long (DINT)            |           | Define global direction 0: left (CW) 1: right (CCW) 
+globalPosition      | Out       | signed long (DINT)            | um        | Calculated global position 
+info                | Out       | SuperTrakPositionInfoType     |           | Diagnostic information 
+return              | Out       | signed long (DINT)            |           | 0: Success, see SuperTrakPositionErrorEnum otherwise 
 
 ---
 
@@ -84,15 +84,15 @@ signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char o
 
 ##### Parameters
 
-Parameter 				| Type 						| Unit 	| Description
-:----------------------:|---------------------------|-------|------------
-return&rarr; 			| DINT 						| 		| 0 - success, otherwise see SuperTrakPositionErrorEnum
-&rarr;globalPosition 	| DINT 						| um 	| Input global position 
-&rarr;originSection 	| USINT 					| 		| Global reference section on system layout 
-&rarr;direction 		| DINT 						| 		| System left/clockwise (0) or right/counter-clockwise (1) defined as position direction 
-section&rarr; 			| USINT 					| 		| Output section
-sectionPosition&rarr; 	| DINT 						| um 	| Output section position 
-info&rarr; 				| SuperTrakPositionInfoType | 		| Diagnostic information
+Parameter           | In/Out    | C Type (IEC Type)             | Unit      | Description       
+--------------------|-----------|-------------------------------|-----------|------------------
+globalPosition      | In        | signed long (DINT)            | um        | Input global position 
+originSection       | In        | unsigned char (USINT)         |           | Define global reference section on system layout 
+direction           | In        | signed long (DINT)            |           | Define global direction 0: left (CW) 1: right (CCW) 
+section             | Out       | unsigned char (USINT)         |           | Calculated section 
+sectionPosition     | Out       | signed long (DINT)            | um        | Calculated section position 
+info                | Out       | SuperTrakPositionInfoType     |           | Diagnostic information 
+return              | Out       | signed long (DINT)            |           | 0: Success, see SuperTrakPositionErrorEnum otherwise 
 
 ---
 
@@ -105,11 +105,11 @@ signed long SuperTrakTotalLength(signed long *length, struct SuperTrakPositionIn
 
 ##### Parameters
 
-Parameter 		| Type 						| Unit 	| Description
-:--------------:|---------------------------|-------|------------
-return&rarr; 	| DINT						| 		| 0 - success, otherwise see SuperTrakPositionErrorEnum
-length&rarr; 	| DINT						| um 	| Total length of SuperTrak layout
-info&rarr; 		| SuperTrakPositionInfoType	| 		| Diagnostic information
+Parameter           | In/Out    | C Type (IEC Type)             | Unit      | Description       
+--------------------|-----------|-------------------------------|-----------|------------------
+length              | Out       | signed long (DINT)            | um        | Calculated total length of SuperTrak layout
+info                | Out       | SuperTrakPositionInfoType     |           | Diagnostic information 
+return              | Out       | signed long (DINT)            |           | 0: Success, see SuperTrakPositionErrorEnum otherwise 
 
 ---
 
@@ -122,30 +122,44 @@ signed long SuperTrakSystemLayout(struct SuperTrakSystemLayoutType *layout, stru
 
 ##### Parameters
 
-Parameter 		| Type 							| Unit 	| Description
-:--------------:|-------------------------------|-------|------------
-return&rarr; 	| DINT							| 		| 0 - success, otherwise see SuperTrakPositionErrorEnum
-layout&rarr; 	| SuperTrakPositionLayoutType 	| 		| System layout information
-info&rarr; 		| SuperTrakPositionInfoType		| 		| Diagnostic information
+Parameter           | In/Out    | C Type (IEC Type)             | Unit      | Description       
+--------------------|-----------|-------------------------------|-----------|------------------
+layout              | Out       | SuperTrakSystemLayoutType     |           | System layout information 
+info                | Out       | SuperTrakPositionInfoType     |           | Diagnostic information 
+return              | Out       | signed long (DINT)            |           | 0: Success, see SuperTrakPositionErrorEnum otherwise 
 
 #### Example
 
 ```
 MyLayout
   sectionCount          6
-  sectionAddress[0]     5  (Left network tail)
-  sectionAddress[1]     4
-  sectionAddress[2]     3  (Left network head)
-  sectionAddress[3]     2  (Right network head)
-  sectionAddress[4]     1
-  sectionAddress[5]     6  (Right network tail)
+  networkOrder[0]       5  (Left network tail)
+  networkOrder[1]       4
+  networkOrder[2]       3  (Left network head)
+  networkOrder[3]       2  (Right network head)
+  networkOrder[4]       1
+  networkOrder[5]       6  (Right network tail)
   ...
-  sectionType[0]        0  (Standard straight)
-  sectionType[1]        0
-  sectionType[2]        1  (Standard curve)
-  sectionType[3]        0
+  networkMapping[1]     4  (Section #1 is in network order 4)
+  networkMapping[2]     3
+  networkMapping[3]     2
+  networkMapping[4]     1
+  networkMapping[5]     0  (Section #5 is at the left tail)
+  networkMapping[6]     5 
+  ...
+  flowOrder[0]          1  (Section #1 is the logical head section)
+  flowOrder[1]          2  (Next section in flow direction of head)
+  flowOrder[2]          3 
+  flowOrder[3]          4 
+  flowOrder[4]          5 
+  flowOrder[5]          6 
+  ...
+  sectionType[1]        0  (Standard straight)
+  sectionType[2]        0
+  sectionType[3]        1  (Standard curve)
   sectionType[4]        0
-  sectionType[5]        1  
+  sectionType[5]        0
+  sectionType[6]        1  
   ...
   layoutLinear          FALSE
 ```
@@ -156,7 +170,7 @@ MyLayout
 
 #### Variable Declaration
 
-```
+```iecst
 VAR
     MyOriginSection : USINT;
     MyDirection : DINT;
@@ -170,7 +184,7 @@ END_VAR
 
 #### IEC Structured Text
 
-```
+```iecst
 PositionResult := SuperTrakGlobalPosition(
     section         := MyInputSection,
     sectionPosition := MyInputSectionPosition,
@@ -200,7 +214,7 @@ With the help of libraries [IecString](https://github.com/tmatijevich/IecString#
 
 Declare logging variables.
 
-```
+```iecst
 VAR
     PositionResult : SuperTrakPositionErrorEnum;
     PositionInfo : SuperTrakPositionInfoType;
@@ -212,23 +226,15 @@ END_VAR
 
 Create and call action if an error is detected, `PositionResult <> stPOS_ERROR_NONE`.
 
-```
+```iecst
 (* Log StPos error *)
 ACTION LogStPosError:
     // This action assumes PositionResult and PositionInfo is declared and populated from a recent call to an StPos function
     CASE PositionResult OF
         stPOS_ERROR_SERVCHAN:
-            IF PositionInfo.sectionCountResult <> scERR_SUCCESS THEN
-                Format          := 'StPos layout service channel read error %i for section count';
-                FormatArgs.i[0] := PositionInfo.sectionCountResult;
-            ELSIF PositionInfo.sectionUserAddressResult <> scERR_SUCCESS THEN
-                Format          := 'StPos layout service channel read error %i for section user address';
-                FormatArgs.i[0] := PositionInfo.sectionUserAddressResult;
-            ELSE // Section i type
-                Format          := 'StPos layout service channel read error %i for section %i type';
-                FormatArgs.i[0] := PositionInfo.sectionTypeResult;
-                FormatArgs.i[1] := PositionInfo.section;
-            END_IF
+            Format          := 'StPos layout service channel read error %i parameter %i';
+            FormatArgs.i[0] := PositionInfo.serviceChannelResult;
+            FormatArgs.i[1] := PositionInfo.serviceChannelParameter;
         stPOS_ERROR_SECTIONCOUNT:
             Format          := 'StPos layout section count %i exceeds maximum %i';
             FormatArgs.i[0] := PositionInfo.sectionCount;
@@ -242,8 +248,15 @@ ACTION LogStPosError:
             Format          := 'StPos layout invalid type %i for section %i';
             FormatArgs.i[0] := PositionInfo.sectionType;
             FormatArgs.i[1] := PositionInfo.section;
+        stPOS_ERROR_HEADSECTION:
+            Format          := 'StPos layout head section %i exceeds section count %i';
+            FormatArgs.i[0] := PositionInfo.headSection;
+            FormatArgs.i[1] := PositionInfo.sectionCount;
+        stPOS_ERROR_FLOWDIRECTION:
+            Format          := 'StPos layout invalid flow direction %i (0 - left, 1 - right)';
+            FormatArgs.i[0] := PositionInfo.flowDirection;
         stPOS_ERROR_NETWORKORDER:
-            Format := 'StPos layout unexpected network order';
+            Format          := 'StPos layout unexpected network order';
         stPOS_ERROR_INPUTORIGIN:
             Format          := 'StPos invalid input origin section %i for layout section count %i';
             FormatArgs.i[0] := PositionInfo.originSection;

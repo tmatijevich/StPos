@@ -45,7 +45,7 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	layoutValid 	= false; /* Invalidate until successful completion */
 	
 	/* Read the SuperTrak section count */
-	info->sectionCountResult = SuperTrakServChanRead(
+	info->serviceChannelResult = SuperTrakServChanRead(
 		0, 								/* System parameter */
 		stPAR_SECTION_COUNT, 			/* Parameter */
 		0, 								/* Start index */
@@ -53,8 +53,10 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 		(unsigned long)&sectionCount, 	/* Buffer address */
 		sizeof(&sectionCount)  			/* Buffer size */
 	);
-	if(info->sectionCountResult != scERR_SUCCESS) 
+	if(info->serviceChannelResult != scERR_SUCCESS) {
+		info->serviceChannelParameter = stPAR_SECTION_COUNT;
 		return stPOS_ERROR_SERVCHAN;
+	}
 	else if(sectionCount == 0 || sectionCount > MAX_SECTION) {
 		info->sectionCount = sectionCount;
 		return stPOS_ERROR_SECTIONCOUNT;
@@ -63,9 +65,9 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	/* 
 		Read the SuperTrak system layout network addresses 
 		Increasing network order i moves in the positive right direction stDIRECTION_RIGHT 
-		Decreasing network order i moves in the negative left direction st_DIRECTION_LEFT 
+		Decreasing network order i moves in the negative left direction stDIRECTION_LEFT 
 	*/
-	info->sectionUserAddressResult = SuperTrakServChanRead(
+	info->serviceChannelResult = SuperTrakServChanRead(
 		0, 									/* System parameter */
 		stPAR_SECTION_ADDRESS, 				/* Parameter */
 		0, 									/* Start index */
@@ -73,13 +75,15 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 		(unsigned long)&sectionAddress[0], 	/* Buffer address */
 		sizeof(sectionAddress) 				/* Buffer size */
 	);
-	if(info->sectionUserAddressResult != scERR_SUCCESS)
+	if(info->serviceChannelResult != scERR_SUCCESS) {
+		info->serviceChannelParameter = stPAR_SECTION_ADDRESS;
 		return stPOS_ERROR_SERVCHAN;
+	}
 	
 	/* Read each section's type */
 	layoutLinear = true; /* Assume true before loop, clear if a curve is found */
 	for(i = 0; i < sectionCount; i++) {
-		info->sectionTypeResult = SuperTrakServChanRead(
+		info->serviceChannelResult = SuperTrakServChanRead(
 			sectionAddress[i], 				/* Section parameter */
 			stPAR_SECTION_TYPE, 			/* Parameter */
 			0, 								/* Start index */
@@ -87,8 +91,8 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 			(unsigned long)&sectionType[i], /* Buffer address */
 			sizeof(&sectionType[i]) 		/* Buffer size */
 		);
-		if(info->sectionTypeResult != scERR_SUCCESS) {
-			info->section = sectionAddress[i];
+		if(info->serviceChannelResult != scERR_SUCCESS) {
+			info->serviceChannelParameter = stPAR_SECTION_TYPE;
 			return stPOS_ERROR_SERVCHAN;
 		}
 		/* Verify user address (unlikely service channel was successful) */
