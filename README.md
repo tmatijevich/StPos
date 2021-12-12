@@ -148,7 +148,7 @@ MyLayout
   networkMapping[6]     5 
   ...
   flowOrder[0]          1  (Section #1 is the logical head section)
-  flowOrder[1]          2  (One section in flow direction of head)
+  flowOrder[1]          2  (Next section in flow direction of head)
   flowOrder[2]          3 
   flowOrder[3]          4 
   flowOrder[4]          5 
@@ -232,7 +232,7 @@ ACTION LogStPosError:
     // This action assumes PositionResult and PositionInfo is declared and populated from a recent call to an StPos function
     CASE PositionResult OF
         stPOS_ERROR_SERVCHAN:
-            Format          := 'StPos layout service channel read error %i for parameter %i';
+            Format          := 'StPos layout service channel read error %i parameter %i';
             FormatArgs.i[0] := PositionInfo.serviceChannelResult;
             FormatArgs.i[1] := PositionInfo.serviceChannelParameter;
         stPOS_ERROR_SECTIONCOUNT:
@@ -249,11 +249,11 @@ ACTION LogStPosError:
             FormatArgs.i[0] := PositionInfo.sectionType;
             FormatArgs.i[1] := PositionInfo.section;
         stPOS_ERROR_HEADSECTION:
-            Format 	        := 'StPos layout head section %i exceeds section count %i';
+            Format          := 'StPos layout head section %i exceeds section count %i';
             FormatArgs.i[0] := PositionInfo.headSection;
             FormatArgs.i[1] := PositionInfo.sectionCount;
         stPOS_ERROR_FLOWDIRECTION:
-            Format 	        := 'StPos layout invalid flow direction %i (0 - left, 1 - right)';
+            Format          := 'StPos layout invalid flow direction %i (0 - left, 1 - right)';
             FormatArgs.i[0] := PositionInfo.flowDirection;
         stPOS_ERROR_NETWORKORDER:
             Format          := 'StPos layout unexpected network order';
