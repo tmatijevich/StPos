@@ -19,16 +19,15 @@
 #ifndef stDIRECTION_LEFT
 #define stDIRECTION_LEFT 			0
 #endif
-#define MAX_TYPE 					5
-#define SECTION_LENGTH_TOLERANCE 	5000 	/* Tolerance for calibrated section length, see Encoders page in TrackMaster */
+#define MAX_TYPE 					5 		/* 0: Straight 1m, 1: Curve 500mm, 2: Low-power straight, 3: Curve (left) 800mm, 4: Curve (right) 800mm, 5: 90 degree curve */
 
 /* Global variables (promise to declare in source file) */
 extern unsigned short 			sectionCount; 						/* SuperTrak active section count */
 extern unsigned short 			sectionAddress[MAX_SECTION]; 		/* SuperTrak section user addresses in network order */
 extern unsigned short 			sectionType[MAX_SECTION]; 			/* SuperTrak section type 0..4 in network order */
 extern unsigned short 			sectionMapping[MAX_SECTION + 1]; 	/* Map from user address (SuperTrak section number 1..50) to network order 0..49 */
+extern signed long 				sectionLength[MAX_SECTION]; 		/* SuperTrak calibrated section length in network order */
 extern signed long 				startingPosition[MAX_SECTION]; 		/* [um] Starting position of each section according to originSection and direction */
-extern const signed long 		sectionLengths[]; 					/* Length of a SuperTrak section according to type */
 extern signed long 				totalLength; 						/* Total length of the SuperTrak section network */
 extern unsigned short 			originIndex; 						/* Index in sectionAddress[] representing the first section according to originSection */
 extern unsigned short 			endIndex; 							/* Index in sectionAddress[] representing the last section according to originSection */

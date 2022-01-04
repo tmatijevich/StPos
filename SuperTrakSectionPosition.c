@@ -10,7 +10,6 @@
 signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char originSection, signed long direction, unsigned char *section, signed long *sectionPosition, struct SuperTrakPositionInfoType *info) {
 	
 	/* Declare local variables */
-	signed long sectionLength; /* Store the length of the current section */
 	signed long layoutResult, lowerBound, upperBound;
 	unsigned char i;
 	
@@ -37,9 +36,8 @@ signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char o
 	
 	/* Search for the section */
 	for(i = 0; i < sectionCount; i++) {
-		sectionLength 	= sectionLengths[sectionType[i]];
 		lowerBound 		= startingPosition[i];
-		upperBound 		= startingPosition[i] + sectionLength;
+		upperBound 		= startingPosition[i] + sectionLength[i];
 		if(direction == stDIRECTION_RIGHT) {
 			if(i == endIndex && globalPosition == upperBound) {
 				if(layoutLinear == false) {
@@ -48,17 +46,17 @@ signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char o
 				}
 				else { /* Do not wrap for linear layouts */
 					*section 			= sectionAddress[i];
-					*sectionPosition 	= globalPosition - lowerBound; /* sectionLength */
+					*sectionPosition 	= sectionLength[i];
 				}
 				return stPOS_ERROR_NONE;
 			}
 			else if(lowerBound <= globalPosition && globalPosition < upperBound) {
-				*section = sectionAddress[i];
-				*sectionPosition = globalPosition - lowerBound;
+				*section 			= sectionAddress[i];
+				*sectionPosition 	= globalPosition - lowerBound;
 				return stPOS_ERROR_NONE;
 			}
 		}
-		else { /* LEFT */
+		else { /* Left */
 			if(i == originIndex && globalPosition == lowerBound) {
 				if(layoutLinear == false) {
 					*section 			= sectionAddress[endIndex];
@@ -66,13 +64,13 @@ signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char o
 				}
 				else { /* Do not wrap for linear layouts */
 					*section 			= sectionAddress[i];
-					*sectionPosition 	= sectionLength - (globalPosition - lowerBound); /* sectionLength */
+					*sectionPosition 	= sectionLength[i];
 				}
 				return stPOS_ERROR_NONE;
 			}
 			else if(lowerBound < globalPosition && globalPosition <= upperBound) {
-				*section = sectionAddress[i];
-				*sectionPosition = sectionLength - (globalPosition - lowerBound);
+				*section 			= sectionAddress[i];
+				*sectionPosition 	= sectionLength[i] - (globalPosition - lowerBound);
 				return stPOS_ERROR_NONE;
 			}
 		}

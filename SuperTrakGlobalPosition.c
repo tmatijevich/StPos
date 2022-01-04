@@ -10,7 +10,6 @@
 signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPosition, unsigned char originSection, signed long direction, signed long *globalPosition, struct SuperTrakPositionInfoType *info) {
 		
 	/* Declare local variables */
-	signed long sectionLength; /* Store the length of the input section */
 	signed long layoutResult;
 	
 	/* Reset the solution */
@@ -32,30 +31,27 @@ signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPo
 		info->sectionCount 	= sectionCount;
 		return stPOS_ERROR_INPUTSECTION;
 	}
-	sectionLength = sectionLengths[sectionType[sectionMapping[section]]];
 	
 	/* Verify the input section position */
-	if(sectionPosition < 0 || sectionPosition > sectionLength + SECTION_LENGTH_TOLERANCE) { /* Allow some rollover */ 
+	if(sectionPosition < 0 || sectionPosition > sectionLength[sectionMapping[section]]) { 
 		info->section 				= section;
 		info->sectionPosition 		= sectionPosition;
-		info->sectionPositionMax 	= sectionLength + SECTION_LENGTH_TOLERANCE;
+		info->sectionPositionMax 	= sectionLength[sectionMapping[section]];
 		return stPOS_ERROR_INPUTSECTIONPOS;
 	}
 	
 	/* Derive the global position */
 	if(direction == stDIRECTION_RIGHT) {
-		if(sectionMapping[section] == endIndex && sectionPosition >= sectionLength && layoutLinear == false) /* Rollover the end section */
-			*globalPosition = sectionPosition - sectionLength; /* Allow some rollover */
+		if(sectionMapping[section] == endIndex && sectionPosition == sectionLength[sectionMapping[section]] && layoutLinear == false) /* Rollover the end section */
+			*globalPosition = 0;
 		else 
 			*globalPosition = startingPosition[sectionMapping[section]] + sectionPosition;
 	}
 	else { /* Left */
-		if(sectionMapping[section] == endIndex && sectionPosition == 0 && layoutLinear == false) /* Should not be rollover in the negative direction (encoder offset is zero at the first coil) */
-			*globalPosition = 0; /* Wrap at global end */
-		else if(sectionMapping[section] == originIndex && sectionPosition > sectionLength && layoutLinear == false)
-			*globalPosition = totalLength - (sectionPosition - sectionLength); /* Wrap past global end */
+		if(sectionMapping[section] == endIndex && sectionPosition == 0 && layoutLinear == false) /* Rollover the end section */
+			*globalPosition = 0;
 		else 
-			*globalPosition = startingPosition[sectionMapping[section]] + sectionLength - sectionPosition;
+			*globalPosition = startingPosition[sectionMapping[section]] + sectionLength[sectionMapping[section]] - sectionPosition;
 	}
 	
 	return stPOS_ERROR_NONE;

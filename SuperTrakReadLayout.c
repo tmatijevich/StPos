@@ -11,15 +11,8 @@ unsigned short 			sectionCount; 						/* SuperTrak active section count */
 unsigned short 			sectionAddress[MAX_SECTION]; 		/* SuperTrak section user addresses in network order */
 unsigned short 			sectionType[MAX_SECTION]; 			/* SuperTrak section type 0..4 in network order */
 unsigned short 			sectionMapping[MAX_SECTION + 1]; 	/* Map from user address (SuperTrak section number 1..50) to network order 0..49 */
+signed long 			sectionLength[MAX_SECTION]; 		/* SuperTrak calibrated section length in network order */
 signed long 			startingPosition[MAX_SECTION]; 		/* [um] Starting position of each section according to originSection and direction */
-const signed long 		sectionLengths[] = { 				/* Length of a SuperTrak section according to type */
-	1000000, 												/* 0 - Standard straight 1 meter */
-	1030000, 												/* 1 - Standard curve 1 meter */
-	1000000, 												/* 2 - Lower power straight 1 meter */
-	759347, 												/* 3 - Wide curve 1.5 meter left */
-	759347, 												/* 4 - Wide curve 1.5 meter right */
-	1009805, 												/* 5 - 90 degree curve section */
-};
 signed long 			totalLength; 						/* Total length of the SuperTrak section network */
 unsigned short 			originIndex; 						/* Index in sectionAddress[] representing the first section according to originSection */
 unsigned short 			endIndex; 							/* Index in sectionAddress[] representing the last section according to originSection */
@@ -83,6 +76,19 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	/* Read each section's type */
 	layoutLinear = true; /* Assume true before loop, clear if a curve is found */
 	for(i = 0; i < sectionCount; i++) {
+		info->serviceChannelResult = SuperTrakServChanRead(
+			sectionAddress[i], 					/* Section parameter */
+			1506, 								/* Parameter */
+			0, 									/* Start index */
+			1, 									/* Count */
+			(unsigned long)&sectionLength[i], 	/* Buffer address */
+			sizeof(&sectionLength[i]) 			/* Buffer size */
+		);
+		if(info->serviceChannelResult != scERR_SUCCESS) {
+			info->serviceChannelParameter = 1506;
+			return stPOS_ERROR_SERVCHAN;
+		}
+		
 		info->serviceChannelResult = SuperTrakServChanRead(
 			sectionAddress[i], 				/* Section parameter */
 			stPAR_SECTION_TYPE, 			/* Parameter */
@@ -172,7 +178,7 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 			return stPOS_ERROR_NETWORKORDER; /* More interations than sections */
 		
 		/* Set the section's starting position based on the last section's starting position */
-		startingPosition[i] = startingPosition[i_0] + sectionLengths[sectionType[i_0]];
+		startingPosition[i] = startingPosition[i_0] + sectionLength[i_0];
 		
 		i_0 = i;
 		/* Update the next index/section */
@@ -188,7 +194,7 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	
 	/* Compute the total length of the SuperTrak network */
 	for(i = 0; i < sectionCount; i++)
-		totalLength += sectionLengths[sectionType[i]];
+		totalLength += sectionLength[i];
 	
 	/* Update previous inputs, validate */
 	previousOriginSection 	= originSection;

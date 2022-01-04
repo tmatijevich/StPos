@@ -20,11 +20,10 @@ signed long SuperTrakTotalLength(signed long *length, struct SuperTrakPositionIn
 	if(layoutValid)
 		*length = totalLength; /* Read global value */
 	else {
-		layoutResult = SuperTrakReadLayout(1, stDIRECTION_RIGHT, info); /* Call with section 1 as origin (always value) and direction right */
+		layoutResult = SuperTrakReadLayout(1, stDIRECTION_RIGHT, info); /* Call with section 1 as origin (always available) and direction right */
 		if(layoutResult != stPOS_ERROR_NONE)
 			return layoutResult;
-		else
-			*length = totalLength; /* Read global value */
+		*length = totalLength; /* Read global value */
 	}
 
 	return stPOS_ERROR_NONE;
