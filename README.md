@@ -23,7 +23,7 @@ The global reference is defined by two user inputs: origin section and direction
 ![StPos 6 section layout example900](https://user-images.githubusercontent.com/33841634/138628068-90dba192-4208-4b9a-aa2f-dcc6cd941c00.png)
 
 <p align="center">
-<img height="452" src="https://user-images.githubusercontent.com/33841634/138628120-03121570-b82e-4fb1-99d8-d8afd9ce0f57.png" alt="StPos 6 section sample plot" >
+<img style="width:562px; height:auto;"  src="https://user-images.githubusercontent.com/33841634/138628120-03121570-b82e-4fb1-99d8-d8afd9ce0f57.png" alt="StPos 6 section sample plot" >
 </p>
 
 In this example, the origin section is 2 and the positive direction is left (clockwise).
