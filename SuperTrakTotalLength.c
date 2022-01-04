@@ -7,9 +7,9 @@
 #include "StPosMain.h"
 
 /* Obtain the total length of the SuperTrak layout */
-signed long SuperTrakTotalLength(signed long *length, struct SuperTrakPositionInfoType *info) {
+long SuperTrakTotalLength(long *length, struct SuperTrakPositionInfoType *info) {
 	
-	signed long layoutResult; /* Store the result of read layout call */
+	long layoutResult; /* Store the result of read layout call */
 	
 	/* Clear solution */
 	*length = 0;

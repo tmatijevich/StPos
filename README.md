@@ -58,7 +58,7 @@ Then add the library in Automation Studio logical view with toolbox object "Exis
 
 ```C
 /* Global position on SuperTrak loop from section position */
-signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPosition, unsigned char originSection, signed long direction, signed long *globalPosition, struct SuperTrakPositionInfoType *info);
+long SuperTrakGlobalPosition(unsigned char section, long sectionPosition, unsigned char originSection, long direction, long *globalPosition, struct SuperTrakPositionInfoType *info);
 ```
 
 ##### Parameters
@@ -66,12 +66,12 @@ signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPo
 Parameter           | In/Out    | C Type (IEC Type)             | Unit      | Description       
 --------------------|-----------|-------------------------------|-----------|------------------
 section             | In        | unsigned char (USINT)         |           | Input section 
-sectionPosition     | In        | signed long (DINT)            | um        | Input section position 
+sectionPosition     | In        | long (DINT)                   | um        | Input section position 
 originSection       | In        | unsigned char (USINT)         |           | Define global reference section on system layout 
-direction           | In        | signed long (DINT)            |           | Define global direction 0: left (CW) 1: right (CCW) 
-globalPosition      | Out       | signed long (DINT)            | um        | Calculated global position 
+direction           | In        | long (DINT)                   |           | Define global direction 0: left (CW) 1: right (CCW) 
+globalPosition      | Out       | long (DINT)                   | um        | Calculated global position 
 info                | Out       | SuperTrakPositionInfoType     |           | Diagnostic information 
-return              | Out       | signed long (DINT)            |           | 0: Success, see SuperTrakPositionErrorEnum otherwise 
+return              | Out       | long (DINT)                   |           | 0: Success, see SuperTrakPositionErrorEnum otherwise 
 
 ---
 
@@ -79,20 +79,20 @@ return              | Out       | signed long (DINT)            |           | 0:
 
 ```C
 /* Section and section position on SuperTrak loop from global position */
-signed long SuperTrakSectionPosition(signed long globalPosition, unsigned char originSection, signed long direction, unsigned char *section, signed long *sectionPosition, struct SuperTrakPositionInfoType *info);
+long SuperTrakSectionPosition(long globalPosition, unsigned char originSection, long direction, unsigned char *section, long *sectionPosition, struct SuperTrakPositionInfoType *info);
 ```
 
 ##### Parameters
 
 Parameter           | In/Out    | C Type (IEC Type)             | Unit      | Description       
 --------------------|-----------|-------------------------------|-----------|------------------
-globalPosition      | In        | signed long (DINT)            | um        | Input global position 
+globalPosition      | In        | long (DINT)                   | um        | Input global position 
 originSection       | In        | unsigned char (USINT)         |           | Define global reference section on system layout 
-direction           | In        | signed long (DINT)            |           | Define global direction 0: left (CW) 1: right (CCW) 
+direction           | In        | long (DINT)                   |           | Define global direction 0: left (CW) 1: right (CCW) 
 section             | Out       | unsigned char (USINT)         |           | Calculated section 
-sectionPosition     | Out       | signed long (DINT)            | um        | Calculated section position 
+sectionPosition     | Out       | long (DINT)                   | um        | Calculated section position 
 info                | Out       | SuperTrakPositionInfoType     |           | Diagnostic information 
-return              | Out       | signed long (DINT)            |           | 0: Success, see SuperTrakPositionErrorEnum otherwise 
+return              | Out       | long (DINT)                   |           | 0: Success, see SuperTrakPositionErrorEnum otherwise 
 
 ---
 
@@ -100,16 +100,16 @@ return              | Out       | signed long (DINT)            |           | 0:
 
 ```C
 /* Total length of SuperTrak section network */
-signed long SuperTrakTotalLength(signed long *length, struct SuperTrakPositionInfoType *info);
+long SuperTrakTotalLength(long *length, struct SuperTrakPositionInfoType *info);
 ```
 
 ##### Parameters
 
 Parameter           | In/Out    | C Type (IEC Type)             | Unit      | Description       
 --------------------|-----------|-------------------------------|-----------|------------------
-length              | Out       | signed long (DINT)            | um        | Calculated total length of SuperTrak layout
+length              | Out       | long (DINT)                   | um        | Calculated total length of SuperTrak layout
 info                | Out       | SuperTrakPositionInfoType     |           | Diagnostic information 
-return              | Out       | signed long (DINT)            |           | 0: Success, see SuperTrakPositionErrorEnum otherwise 
+return              | Out       | long (DINT)                   |           | 0: Success, see SuperTrakPositionErrorEnum otherwise 
 
 ---
 
@@ -117,7 +117,7 @@ return              | Out       | signed long (DINT)            |           | 0:
 
 ```C
 /* Obtain the SuperTrak system layout information */
-signed long SuperTrakSystemLayout(struct SuperTrakSystemLayoutType *layout, struct SuperTrakPositionInfoType *info)
+long SuperTrakSystemLayout(struct SuperTrakSystemLayoutType *layout, struct SuperTrakPositionInfoType *info)
 ```
 
 ##### Parameters
@@ -126,7 +126,7 @@ Parameter           | In/Out    | C Type (IEC Type)             | Unit      | De
 --------------------|-----------|-------------------------------|-----------|------------------
 layout              | Out       | SuperTrakSystemLayoutType     |           | System layout information 
 info                | Out       | SuperTrakPositionInfoType     |           | Diagnostic information 
-return              | Out       | signed long (DINT)            |           | 0: Success, see SuperTrakPositionErrorEnum otherwise 
+return              | Out       | long (DINT)                   |           | 0: Success, see SuperTrakPositionErrorEnum otherwise 
 
 #### Example
 

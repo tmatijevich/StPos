@@ -7,10 +7,10 @@
 #include "StPosMain.h"
 
 /* Return the global reference position on the SuperTrak loop */
-signed long SuperTrakGlobalPosition(unsigned char section, signed long sectionPosition, unsigned char originSection, signed long direction, signed long *globalPosition, struct SuperTrakPositionInfoType *info) {
+long SuperTrakGlobalPosition(unsigned char section, long sectionPosition, unsigned char originSection, long direction, long *globalPosition, struct SuperTrakPositionInfoType *info) {
 		
 	/* Declare local variables */
-	signed long layoutResult;
+	long layoutResult;
 	
 	/* Reset the solution */
 	*globalPosition = 0;

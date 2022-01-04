@@ -7,22 +7,22 @@
 #include "StPosMain.h"
 
 /* Declare global variables */
-unsigned short 			sectionCount; 						/* SuperTrak active section count */
-unsigned short 			sectionAddress[MAX_SECTION]; 		/* SuperTrak section user addresses in network order */
-unsigned short 			sectionType[MAX_SECTION]; 			/* SuperTrak section type 0..4 in network order */
-unsigned short 			sectionMapping[MAX_SECTION + 1]; 	/* Map from user address (SuperTrak section number 1..50) to network order 0..49 */
-signed long 			sectionLength[MAX_SECTION]; 		/* SuperTrak calibrated section length in network order */
-signed long 			startingPosition[MAX_SECTION]; 		/* [um] Starting position of each section according to originSection and direction */
-signed long 			totalLength; 						/* Total length of the SuperTrak section network */
-unsigned short 			originIndex; 						/* Index in sectionAddress[] representing the first section according to originSection */
-unsigned short 			endIndex; 							/* Index in sectionAddress[] representing the last section according to originSection */
-unsigned short 			previousOriginSection; 				/* The value of originSection in the last call to SuperTrakReadLayout() */
-unsigned char 			previousDirection; 					/* The value of direction in the last call to SuperTrakReadLayout() */
-unsigned char 			layoutValid; 						/* The last call to SuperTrakReadLayout() was successful */
-unsigned char 			layoutLinear; 						/* The layout has no curved sections */
+unsigned short 	sectionCount; 							/* SuperTrak active section count */
+unsigned short 	sectionAddress[stPOS_SECTION_MAX]; 		/* SuperTrak section user addresses in network order */
+unsigned short 	sectionType[stPOS_SECTION_MAX]; 		/* SuperTrak section type 0..5 in network order */
+unsigned short 	sectionMapping[stPOS_SECTION_MAX + 1]; 	/* Map from user address (SuperTrak section number 1..64) to network order 0..63 */
+long 			sectionLength[stPOS_SECTION_MAX]; 		/* SuperTrak calibrated section length in network order */
+long 			startingPosition[stPOS_SECTION_MAX]; 	/* [um] Starting position of each section according to originSection and direction */
+long 			totalLength; 							/* Total length of the SuperTrak section network */
+unsigned short 	originIndex; 							/* Index in sectionAddress[] representing the first section according to originSection */
+unsigned short 	endIndex; 								/* Index in sectionAddress[] representing the last section according to originSection */
+unsigned short 	previousOriginSection; 					/* The value of originSection in the last call to SuperTrakReadLayout() */
+unsigned char 	previousDirection; 						/* The value of direction in the last call to SuperTrakReadLayout() */
+unsigned char 	layoutValid; 							/* The last call to SuperTrakReadLayout() was successful */
+unsigned char 	layoutLinear; 							/* The layout has no curved sections */
 
 /* Read/update the global SuperTrak network layout reference */
-signed long SuperTrakReadLayout(unsigned char originSection, signed long direction, struct SuperTrakPositionInfoType *info) {
+long SuperTrakReadLayout(unsigned char originSection, long direction, struct SuperTrakPositionInfoType *info) {
 	
 	/* Declare local variables */
 	unsigned char i, i_0, j;
@@ -50,7 +50,7 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 		info->serviceChannelParameter = stPAR_SECTION_COUNT;
 		return stPOS_ERROR_SERVCHAN;
 	}
-	else if(sectionCount == 0 || sectionCount > MAX_SECTION) {
+	else if(sectionCount == 0 || sectionCount > stPOS_SECTION_MAX) {
 		info->sectionCount = sectionCount;
 		return stPOS_ERROR_SECTIONCOUNT;
 	}
@@ -102,13 +102,13 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 			return stPOS_ERROR_SERVCHAN;
 		}
 		/* Verify user address (unlikely service channel was successful) */
-		else if(sectionAddress[i] == 0 || sectionAddress[i] > MAX_SECTION) {
+		else if(sectionAddress[i] == 0 || sectionAddress[i] > stPOS_SECTION_MAX) {
 			info->section 		= sectionAddress[i];
 			info->networkIndex 	= i;
 			return stPOS_ERROR_SECTIONADDRESS;
 		}
-		/* Verify this section's type is within 0..4 */
-		else if(sectionType[i] > MAX_TYPE) {
+		/* Verify this section's type is within 0..5 */
+		else if(sectionType[i] > stPOS_TYPE_MAX) {
 			info->sectionType 	= sectionType[i];
 			info->section 		= sectionAddress[i];
 			return stPOS_ERROR_SECTIONTYPE;
@@ -128,7 +128,7 @@ signed long SuperTrakReadLayout(unsigned char originSection, signed long directi
 	
 	/* Find the origin and create the mapping */
 	for(i = 0; i < sectionCount; i++) {
-		sectionMapping[sectionAddress[i]] = i; /* 1..50 Use to map from section number to network address */
+		sectionMapping[sectionAddress[i]] = i; /* 1..64 Use to map from section number to network address */
 		
 		if(originSection == sectionAddress[i] && layoutLinear == false) {
 			originIndex = i;

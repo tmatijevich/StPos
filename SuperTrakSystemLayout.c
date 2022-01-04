@@ -7,10 +7,10 @@
 #include "StPosMain.h"
 
 /* Obtain the SuperTrak system layout information */
-signed long SuperTrakSystemLayout(struct SuperTrakSystemLayoutType *layout, struct SuperTrakPositionInfoType *info) {
+long SuperTrakSystemLayout(struct SuperTrakSystemLayoutType *layout, struct SuperTrakPositionInfoType *info) {
 	
 	/* Declare local variables */
-	signed long layoutResult;
+	long layoutResult;
 	unsigned char i, j, k;
 	unsigned short headSection, flowDirection;
 	

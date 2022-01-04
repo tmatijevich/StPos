@@ -1,4 +1,4 @@
 VAR CONSTANT
-	MAX_SECTION : USINT := 50; (*Maximum number of sections in a SuperTrak layout*)
-	MAX_SECTION_INDEX : USINT := MAX_SECTION - 1; (*Size section arrays*)
+	stPOS_SECTION_MAX : USINT := 64; (*Maximum number of sections*)
+	stPOS_SECTION_INDEX : USINT := stPOS_SECTION_MAX - 1; (*Size section arrays*)
 END_VAR
