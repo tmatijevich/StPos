@@ -1,5 +1,10 @@
+(******************************************************************************
+ * File: StPos.fun
+ * Author: Tyler Matijevich
+ * Date: 2021-05-22
+*******************************************************************************)
 
-FUNCTION SuperTrakGlobalPosition : DINT (*Return the global position on the SuperTrak loop*)
+FUNCTION SuperTrakGlobalPosition : DINT (*Global position on SuperTrak*)
 	VAR_INPUT
 		section : USINT; (*Section number*)
 		sectionPosition : DINT; (*[um] Position referenced to section's left edge*)
@@ -10,7 +15,7 @@ FUNCTION SuperTrakGlobalPosition : DINT (*Return the global position on the Supe
 	END_VAR
 END_FUNCTION
 
-FUNCTION SuperTrakSectionPosition : DINT (*Return the section position on the SuperTrak loop*)
+FUNCTION SuperTrakSectionPosition : DINT (*Section position on SuperTrak*)
 	VAR_INPUT
 		globalPosition : DINT; (*[um] Global position referenced to origin section*)
 		originSection : USINT; (*First section in layout for global reference*)
@@ -21,16 +26,19 @@ FUNCTION SuperTrakSectionPosition : DINT (*Return the section position on the Su
 	END_VAR
 END_FUNCTION
 
-FUNCTION SuperTrakTotalLength : DINT (*Return the total pallet travel length of the SuperTrak section network*)
+FUNCTION SuperTrakTotalLength : DINT (*Total pallet travel length of the SuperTrak section network*)
 	VAR_INPUT
 		length : REFERENCE TO DINT; (*Pointer to DINT to store the SuperTrak total length*)
 		info : SuperTrakPositionInfoType; (*Diagnostic information*)
 	END_VAR
 END_FUNCTION
 
-FUNCTION SuperTrakSystemLayout : DINT (*Return the SuperTrak system layout*)
+FUNCTION SuperTrakSystemLayout : DINT (*SuperTrak system layout*)
 	VAR_INPUT
 		layout : SuperTrakSystemLayoutType; (*Reference to the system layout structure*)
 		info : SuperTrakPositionInfoType; (*Diagnostic information*)
 	END_VAR
+END_FUNCTION
+
+FUNCTION SuperTrakRefreshLayout : DINT (*Force re-read of SuperTrak system layout after encoder calibration*)
 END_FUNCTION

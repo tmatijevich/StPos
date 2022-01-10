@@ -1,3 +1,9 @@
+(******************************************************************************
+ * File: StPos.var
+ * Author: Tyler Matijevich
+ * Date: 2021-05-22
+*******************************************************************************)
+
 VAR CONSTANT
 	stPOS_SECTION_MAX : USINT := 64; (*Maximum number of sections*)
 	stPOS_SECTION_INDEX : USINT := stPOS_SECTION_MAX - 1; (*Size section arrays*)

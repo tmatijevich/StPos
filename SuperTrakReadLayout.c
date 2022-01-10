@@ -21,6 +21,12 @@ unsigned char 	previousDirection; 						/* The value of direction in the last ca
 unsigned char 	layoutValid; 							/* The last call to SuperTrakReadLayout() was successful */
 unsigned char 	layoutLinear; 							/* The layout has no curved sections */
 
+
+long SuperTrakRefreshLayout(void) {
+	layoutValid = false; /* Force a re-read of layout on next function call */
+	return stPOS_ERROR_NONE;
+}
+
 /* Read/update the global SuperTrak network layout reference */
 long SuperTrakReadLayout(unsigned char originSection, long direction, struct SuperTrakPositionInfoType *info) {
 	

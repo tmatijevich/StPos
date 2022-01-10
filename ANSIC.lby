@@ -2,7 +2,7 @@
 <?AutomationStudio FileVersion="4.9"?>
 <Library Version="0.02.4" SubType="ANSIC" Description="SuperTrak global positioning" xmlns="http://br-automation.co.at/AS/Library">
   <Files>
-    <File Description="Functions">StPos.fun</File>
+    <File Description="Function declarations">StPos.fun</File>
     <File Description="Data types">StPos.typ</File>
     <File Description="Constants">StPos.var</File>
     <File Description="Common header">StPosMain.h</File>
@@ -11,7 +11,7 @@
     <File Description="SuperTrak section position">SuperTrakSectionPosition.c</File>
     <File Description="Total system length">SuperTrakTotalLength.c</File>
     <File Description="System layout information">SuperTrakSystemLayout.c</File>
-    <File Description="Version history descriptions">VersionHistory.txt</File>
+    <File Description="Version update history">VersionHistory.txt</File>
   </Files>
   <Dependencies>
     <Dependency ObjectName="SuperTrak" FromVersion="0.06.0" />

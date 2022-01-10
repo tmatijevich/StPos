@@ -1,8 +1,8 @@
 # StPos
 
-[StPos](https://github.com/tmatijevich/StPos) is a library for Automation Studio projects to use with the SuperTrak modular transport system.
+[StPos](https://github.com/tmatijevich/StPos) is an Automation Studio library for the SuperTrak modular transport system.
 
-This library provides functions to translate between local section positions and global loop positions.  
+The StPos library provides functions to translate between local section positions and global loop positions.  
 The functions are valid for any network layout.  
 The global reference is defined by two user inputs: origin section and direction.  
 **Notice**: This is not an offical library. StPos is provided as is under the GNU GPL v3.0 license agreement.  
@@ -17,8 +17,9 @@ The global reference is defined by two user inputs: origin section and direction
     - Wide 180<span>&deg;</span> loop
     - 90<span>&deg;</span> loop
     - Linear
-4. Efficient function calls for cyclic use
-5. Export system layout for external processing
+4. Hardware-specific calibrated section lengths
+5. Efficient function calls for cyclic use
+6. Export system layout for external processing
 
 ![StPos 6 section layout example900](https://user-images.githubusercontent.com/33841634/138628068-90dba192-4208-4b9a-aa2f-dcc6cd941c00.png)
 
@@ -26,7 +27,7 @@ The global reference is defined by two user inputs: origin section and direction
 <img style="width:562px; height:auto;"  src="https://user-images.githubusercontent.com/33841634/138628120-03121570-b82e-4fb1-99d8-d8afd9ce0f57.png" alt="StPos 6 section sample plot" >
 </p>
 
-In this example, the origin section is 2 and the positive direction is left (clockwise).
+In this example, the origin section is 2 and the positive direction is left (clockwise). The section lengths are exactly 1000.0 and 1030.0, however, the user's system will likely vary in section length slightly accounting for the unique encoder calibration. 
 
 ## Clone
 
@@ -51,6 +52,8 @@ Then add the library in Automation Studio logical view with toolbox object "Exis
 - [SuperTrakSectionPosition()](#supertraksectionposition)
 - [SuperTrakTotalLength()](#supertraktotallength)
 - [SuperTrakSystemLayout()](#supertraksystemlayout)
+
+The internal `SuperTrakReadLayout()` function is only called when there is a change in user origin section or direction. This keeps CPU usage to a minimum. If the user re-calibrates the section encoders, the user may warm-restart or call `SuperTrakRefreshLayout()` to force a new internal call to `SuperTrakReadLayout()`. This will update the calibrated section lengths.
 
 ---
 
@@ -99,9 +102,11 @@ return              | Out       | long (DINT)                   |           | 0:
 #### [SuperTrakTotalLength](https://github.com/tmatijevich/StPos/blob/main/SuperTrakTotalLength.c?ts=4)
 
 ```C
-/* Total length of SuperTrak section network */
+/* Total pallet travel length of the SuperTrak section network */
 long SuperTrakTotalLength(long *length, struct SuperTrakPositionInfoType *info);
 ```
+
+This function provides the total **calibrated** length of all sections on the system. If in simulation, not encoder calibration is required and the calibrated lengths are initialized to the nominal lengths.
 
 ##### Parameters
 

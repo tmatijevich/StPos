@@ -6,7 +6,7 @@
 
 #include "StPosMain.h"
 
-/* Obtain the total length of the SuperTrak layout */
+/* Total pallet travel length of the SuperTrak section network */
 long SuperTrakTotalLength(long *length, struct SuperTrakPositionInfoType *info) {
 	
 	long layoutResult; /* Store the result of read layout call */
