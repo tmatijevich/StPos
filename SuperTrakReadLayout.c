@@ -7,6 +7,16 @@
 #include "StPosMain.h"
 
 /* Declare global variables */
+/* Nominal information */
+long nominalLengths[] = { 								/* Nominal section lengths of each section type */
+	1000000, 											/* 0 - Standard straight 1 meter */
+	1030000, 											/* 1 - Standard curve 1 meter */
+	1000000, 											/* 2 - Lower power straight 1 meter */
+	759347, 											/* 3 - Wide curve 1.5 meter left */
+	759347, 											/* 4 - Wide curve 1.5 meter right */
+	1009805, 											/* 5 - 90 degree curve section */
+};
+/* Current network configuration */
 unsigned short 	sectionCount; 							/* SuperTrak active section count */
 unsigned short 	sectionAddress[stPOS_SECTION_MAX]; 		/* SuperTrak section user addresses in network order */
 unsigned short 	sectionType[stPOS_SECTION_MAX]; 		/* SuperTrak section type 0..5 in network order */
@@ -14,6 +24,7 @@ unsigned short 	sectionMapping[stPOS_SECTION_MAX + 1]; 	/* Map from user address
 long 			sectionLength[stPOS_SECTION_MAX]; 		/* SuperTrak calibrated section length in network order */
 long 			startingPosition[stPOS_SECTION_MAX]; 	/* [um] Starting position of each section according to originSection and direction */
 long 			totalLength; 							/* Total length of the SuperTrak section network */
+/* Administrative information */
 unsigned short 	originIndex; 							/* Index in sectionAddress[] representing the first section according to originSection */
 unsigned short 	endIndex; 								/* Index in sectionAddress[] representing the last section according to originSection */
 unsigned short 	previousOriginSection; 					/* The value of originSection in the last call to SuperTrakReadLayout() */

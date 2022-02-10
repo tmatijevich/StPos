@@ -27,6 +27,7 @@ extern "C"
 #define stPOS_TYPE_MAX 		5 		/* 0: Straight 1m, 1: Curve 500mm, 2: Low-power straight, 3: Curve (left) 800mm, 4: Curve (right) 800mm, 5: 90 degree curve */
 
 /* Global variables (promise to declare in source file) */
+extern long 			nominalLengths[];  						/* Nominal section lengths of each section type */
 extern unsigned short 	sectionCount; 							/* SuperTrak active section count */
 extern unsigned short 	sectionAddress[stPOS_SECTION_MAX]; 		/* SuperTrak section user addresses in network order */
 extern unsigned short 	sectionType[stPOS_SECTION_MAX]; 		/* SuperTrak section type 0..5 in network order */
