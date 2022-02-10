@@ -21,7 +21,7 @@ long SuperTrakSectionPosition(long globalPosition, unsigned char originSection, 
 	memset(info, 0, sizeof(*info));
 	
 	/* Re-read the SuperTrak layout */
-	if(originSection != previousOriginSection || direction != previousDirection || layoutValid == false) {
+	if(originSection != previousOriginSection || direction != previousDirection || !layoutValid) {
 		layoutResult = SuperTrakReadLayout(originSection, direction, info);
 		if(layoutResult != stPOS_ERROR_NONE)
 			return layoutResult;
@@ -40,7 +40,7 @@ long SuperTrakSectionPosition(long globalPosition, unsigned char originSection, 
 		upperBound 		= startingPosition[i] + sectionLength[i];
 		if(direction == stDIRECTION_RIGHT) {
 			if(i == endIndex && globalPosition == upperBound) {
-				if(layoutLinear == false) {
+				if(!layoutLinear) {
 					*section 			= sectionAddress[originIndex];
 					*sectionPosition 	= 0;
 				}
@@ -58,7 +58,7 @@ long SuperTrakSectionPosition(long globalPosition, unsigned char originSection, 
 		}
 		else { /* Left */
 			if(i == originIndex && globalPosition == lowerBound) {
-				if(layoutLinear == false) {
+				if(!layoutLinear) {
 					*section 			= sectionAddress[endIndex];
 					*sectionPosition 	= 0;
 				}

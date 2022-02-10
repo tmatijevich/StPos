@@ -19,7 +19,7 @@ long SuperTrakSystemLayout(struct SuperTrakSystemLayoutType *layout, struct Supe
 	memset(info, 0, sizeof(*info));
 	
 	/* Update layout if invalid */
-	if(layoutValid == false) {
+	if(!layoutValid) {
 		layoutResult = SuperTrakReadLayout(1, stDIRECTION_RIGHT, info); /* Call with default origin and direction */
 		if(layoutResult != stPOS_ERROR_NONE)
 			return layoutResult;

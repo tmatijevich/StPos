@@ -1,4 +1,4 @@
- /*******************************************************************************
+/*******************************************************************************
  * File:      SuperTrakGlobalPosition.c
  * Author:    Tyler Matijevich
  * Date:      2021-05-22
@@ -20,7 +20,7 @@ long SuperTrakGlobalPosition(unsigned char section, long sectionPosition, unsign
 	memset(info, 0, sizeof(*info));
 	
 	/* Re-read the SuperTrak layout */
-	if(originSection != previousOriginSection || direction != previousDirection || layoutValid == false) {
+	if(originSection != previousOriginSection || direction != previousDirection || !layoutValid) {
 		layoutResult = SuperTrakReadLayout(originSection, direction, info);
 		if(layoutResult != stPOS_ERROR_NONE)
 			return layoutResult;
@@ -44,15 +44,15 @@ long SuperTrakGlobalPosition(unsigned char section, long sectionPosition, unsign
 	
 	/* Derive the global position */
 	if(direction == stDIRECTION_RIGHT) {
-		if(sectionMapping[section] == endIndex && sectionPosition >= sectionLength[sectionMapping[section]] && layoutLinear == false) /* Rollover the end section */
+		if(sectionMapping[section] == endIndex && sectionPosition >= sectionLength[sectionMapping[section]] && !layoutLinear) /* Rollover the end section */
 			*globalPosition = sectionPosition - sectionLength[sectionMapping[section]]; 
 		else 
 			*globalPosition = startingPosition[sectionMapping[section]] + sectionPosition;
 	}
 	else { /* Left */
-		if(sectionMapping[section] == endIndex && sectionPosition == 0 && layoutLinear == false) /* Rollover the end section */
+		if(sectionMapping[section] == endIndex && sectionPosition == 0 && !layoutLinear) /* Rollover the end section */
 			*globalPosition = 0;
-		else if(sectionMapping[section] == originIndex && sectionPosition > sectionLength[sectionMapping[section]] && layoutLinear == false)
+		else if(sectionMapping[section] == originIndex && sectionPosition > sectionLength[sectionMapping[section]] && !layoutLinear)
 			*globalPosition = totalLength - (sectionPosition - sectionLength[sectionMapping[section]]);
 		else 
 			*globalPosition = startingPosition[sectionMapping[section]] + sectionLength[sectionMapping[section]] - sectionPosition;

@@ -137,7 +137,7 @@ long SuperTrakReadLayout(unsigned char originSection, long direction, struct Sup
 	}
 	
 	/* Verify the origin section */
-	if((originSection == 0 || originSection > sectionCount) && layoutLinear == false) {
+	if((originSection == 0 || originSection > sectionCount) && !layoutLinear) {
 		info->originSection = originSection;
 		info->sectionCount 	= sectionCount;
 		return stPOS_ERROR_INPUTORIGIN;
@@ -147,7 +147,7 @@ long SuperTrakReadLayout(unsigned char originSection, long direction, struct Sup
 	for(i = 0; i < sectionCount; i++) {
 		sectionMapping[sectionAddress[i]] = i; /* 1..64 Use to map from section number to network address */
 		
-		if(originSection == sectionAddress[i] && layoutLinear == false) {
+		if(originSection == sectionAddress[i] && !layoutLinear) {
 			originIndex = i;
 			
 			/* Determine the tail section user address */
