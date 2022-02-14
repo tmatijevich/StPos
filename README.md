@@ -46,6 +46,17 @@ git submodule add https://github.com/tmatijevich/StPos.git <apj_root>/Logical/Li
 
 Then add the library in Automation Studio logical view with toolbox object "Existing Library".
 
+## Calibration
+
+Physical SuperTrak systems require encoder calibration when commissioned. This leads to calibrated section lengths - deviations in microns from the nominal lengths. StPos functions use the calibrated lengths when considering global positions. This ensures global position accuracy will reflect physical systems. 
+
+**Note**: Simulated systems have calibrated lengths exactly equal to the nominal lengths.
+
+Here is an example of global positions two sections on a system with unique calibrated lengths. The global direction is right (the section position direction is always right).
+
+Here is another example with the global direction going left (the section position direction is always right).
+
+
 ## Functions
 
 - [SuperTrakGlobalPosition()](#supertrakglobalposition)

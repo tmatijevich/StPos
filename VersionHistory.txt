@@ -2,6 +2,10 @@
 
 [Release information](https://github.com/tmatijevich/StPos/releases)
 
+## 0.2.5 (2022-01-14)
+- Allow section positions within nominal length if calibrated length is shorter
+- Update readme with calibration examples
+
 ## 0.2.4 (2022-01-04)
 - Use calibrated section lengths
 - Optional refresh function for re-calibration
