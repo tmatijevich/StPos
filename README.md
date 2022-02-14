@@ -56,7 +56,7 @@ Here is an example of global positions two sections on a system with unique cali
 
 <img width="8504" alt="Calibration" src="https://user-images.githubusercontent.com/33841634/153919536-6ad95d8f-3a1a-4ebe-9b76-7ffe5dff8ff8.png">
 
-Here is another example with the global direction going left (the section position direction is always right).
+Here is the same example but with the global direction going left (the section position direction is always right).
 
 <img width="8504" alt="Calibration left" src="https://user-images.githubusercontent.com/33841634/153919578-6b5ebc50-a37c-4cd4-9273-f7cc29be621b.png">
 
